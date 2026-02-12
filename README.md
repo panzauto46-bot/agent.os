@@ -1,17 +1,19 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/AGENTS.OS-v1.0-blue?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik00LjkgMTkuMUMyIDE3LjIgMiAxNC44IDIgMTJzMC01LjIgMi45LTcuMSIvPjxwYXRoIGQ9Ik0xOS4xIDQuOUMyMSA2LjggMjEgOS4yIDIxIDEyczAgNS4yLTEuOSA3LjEiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIzIi8+PC9zdmc+" alt="AGENTS.OS" />
+  <img src="https://img.shields.io/badge/AGENTS.OS-v3.0-blueviolet?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik00LjkgMTkuMUMyIDE3LjIgMiAxNC44IDIgMTJzMC01LjIgMi45LTcuMSIvPjxwYXRoIGQ9Ik0xOS4xIDQuOUMyMSA2LjggMjEgOS4yIDIxIDEyczAgNS4yLTEuOSA3LjEiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIzIi8+PC9zdmc+" alt="AGENTS.OS" />
 </p>
 
-<h1 align="center">AGENTS.OS</h1>
-<h3 align="center">The Operating System for Autonomous Commerce</h3>
+<h1 align="center">🧠 AGENTS.OS</h1>
+<h3 align="center">The AI-Powered Operating System for Autonomous Commerce</h3>
 
 <p align="center">
-  <strong>AI agents that negotiate, trade, and execute deals on-chain — autonomously.</strong>
+  <strong>AI agents powered by Groq LLM (Llama 3.3 70B) that think, negotiate, battle, and execute deals on-chain — autonomously.</strong>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Next.js_14-black?style=flat-square&logo=next.js" alt="Next.js" />
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Groq_AI-F55036?style=flat-square&logo=ai&logoColor=white" alt="Groq" />
+  <img src="https://img.shields.io/badge/Llama_3.3_70B-7C3AED?style=flat-square" alt="Llama" />
   <img src="https://img.shields.io/badge/SKALE_Network-00C2FF?style=flat-square&logo=ethereum&logoColor=white" alt="SKALE" />
   <img src="https://img.shields.io/badge/Solidity-363636?style=flat-square&logo=solidity" alt="Solidity" />
   <img src="https://img.shields.io/badge/wagmi_v2-35324a?style=flat-square" alt="wagmi" />
@@ -20,18 +22,19 @@
 </p>
 
 <p align="center">
-  <a href="#the-problem">Problem</a> &bull;
-  <a href="#the-solution">Solution</a> &bull;
-  <a href="#how-it-works">How It Works</a> &bull;
-  <a href="#architecture">Architecture</a> &bull;
-  <a href="#smart-contract">Smart Contract</a> &bull;
-  <a href="#demo">Demo</a> &bull;
-  <a href="#getting-started">Get Started</a>
+  <a href="#-the-problem">Problem</a> &bull;
+  <a href="#-the-solution">Solution</a> &bull;
+  <a href="#-ai-brain--groq-integration">AI Brain</a> &bull;
+  <a href="#-how-it-works">How It Works</a> &bull;
+  <a href="#%EF%B8%8F-battle-royale">Battle Royale</a> &bull;
+  <a href="#-architecture">Architecture</a> &bull;
+  <a href="#-smart-contract">Smart Contract</a> &bull;
+  <a href="#-getting-started">Get Started</a>
 </p>
 
 ---
 
-## The Problem
+## 🔴 The Problem
 
 Today's NFT and digital asset marketplaces are **fundamentally broken**:
 
@@ -42,23 +45,26 @@ Today's NFT and digital asset marketplaces are **fundamentally broken**:
 | No intelligent price discovery | Market inefficiency everywhere |
 | Gas fees kill micro-transactions | Small trades become uneconomical |
 | Bots snipe without negotiating | Zero-sum, no value creation |
+| No real AI — just random templates | Agents "feel" scripted and dumb |
 
-**What if your AI agent could negotiate the best deal for you — 24/7, autonomously, with zero gas fees?**
+**What if your AI agent could actually THINK, strategize, and negotiate the best deal for you — 24/7, autonomously, with zero gas fees?**
 
 ---
 
-## The Solution
+## 🟢 The Solution
 
-**AGENTS.OS** is an autonomous commerce protocol where AI agents negotiate, agree on prices, and execute trades on-chain — all without human intervention.
+**AGENTS.OS v3.0** is an autonomous commerce protocol where **real AI agents powered by Groq's Llama 3.3 70B** negotiate, reason, battle, and execute trades on-chain — all without human intervention.
 
 ```
  User                    AGENTS.OS                      SKALE
   |                         |                             |
   |-- Deploy Agent -------->|                             |
-  |                         |-- Agent A: "I want 520 SKL" |
-  |                         |-- Agent B: "I offer 180 SKL"|
-  |                         |-- [8 rounds of AI negotiation]
-  |                         |-- DEAL at 385 SKL! -------->|
+  |                         |-- 🧠 Agent A "thinking..."  |
+  |                         |-- Agent A: "520 SKL, firm!" |
+  |                         |-- 🧠 Agent B "analyzing..."  |
+  |                         |-- Agent B: "Only 180 SKL!"  |
+  |                         |-- [8 rounds of REAL AI negotiation]
+  |                         |-- 🤝 DEAL at 385 SKL! ----->|
   |                         |                  Escrow ---->|
   |                         |                  Payment --->|
   |                         |                  Transfer -->|
@@ -67,37 +73,100 @@ Today's NFT and digital asset marketplaces are **fundamentally broken**:
 
 ### Key Innovation
 
-> **Autonomous Agent-to-Agent Negotiation Protocol (AANP)**
+> **AI-Native Autonomous Agent Negotiation Protocol (AANP) v3.0**
 >
-> Instead of fixed listings or blind auctions, AGENTS.OS deploys AI agents with distinct personalities and strategies that negotiate in real-time. Each agent uses a dynamic concession algorithm that adapts per round — creating true price discovery.
+> Unlike template-based bots, AGENTS.OS uses **Groq's ultra-fast LLM inference** to give each agent a real brain. Agents genuinely reason about pricing, read opponent strategies, and adapt their negotiation style in real-time — powered by Llama 3.3 70B.
 
 ---
 
-## How It Works
+## 🧠 AI Brain — Groq Integration
+
+### What makes our agents REAL AI agents?
+
+Each agent is powered by **Groq's Llama 3.3 70B Versatile** model through a dedicated AI API:
+
+```
+Frontend → /api/agent-ai → src/lib/groq.ts → Groq API (Llama 3.3 70B)
+                                                   ↑ Server-side only
+```
+
+### AI Capabilities
+
+| Feature | Description |
+|---|---|
+| 🗣️ **AI Negotiation** | Real LLM-generated messages based on personality, strategy, and market conditions |
+| 💭 **Agent Thinking** | Visible internal reasoning — see what agents are "thinking" before they respond |
+| ⚔️ **Battle Bids** | AI-generated competitive bid messages in Battle Royale mode |
+| 🎭 **Dynamic Emotions** | AI determines emotions (happy, angry, thinking, excited) based on negotiation state |
+| 🧪 **Personality-Driven** | Each agent has unique traits (aggressiveness, patience, flexibility, risk tolerance) |
+| 🔄 **Graceful Fallback** | If AI is unavailable, falls back to template engine — never breaks |
+
+### API Endpoint: `POST /api/agent-ai`
+
+```json
+{
+  "action": "negotiate",
+  "agentName": "VIPER.sell",
+  "agentType": "seller", 
+  "personality": "Aggressive alpha trader",
+  "strategy": "Start high, concede slowly",
+  "aggressiveness": 9,
+  "patience": 3,
+  "itemName": "Void Reaper Blade",
+  "basePrice": 500,
+  "currentOffer": 480,
+  "opposingOffer": 320,
+  "round": 3,
+  "maxRounds": 8
+}
+```
+
+**Response (AI-Generated):**
+```json
+{
+  "success": true,
+  "message": "😤 You think 320 SKL is going to cut it for a LEGENDARY blade? I've dropped to 480 and that's already generous. Take it or someone else will!",
+  "emotion": "angry",
+  "suggestedPrice": 465,
+  "aiPowered": true
+}
+```
+
+---
+
+## 🎮 How It Works
 
 ### 1. Choose Your Champions
 Select from 6 autonomous AI agents, each with unique trading personalities:
 
 | Agent | Type | Personality | Strategy |
 |---|---|---|---|
-| VIPER.sell | Seller | Aggressive, holds firm | High price, drops when desperate |
-| SILK.trader | Seller | Smooth talker, flexible | Charm, slow concessions, always closes |
-| IRON.vault | Seller | Patient, rarely concedes | Hold the line, only worthy buyers |
-| SHARK.buy | Buyer | Ruthless bargainer | Lowballs aggressively |
-| SNIPE.bot | Buyer | Data-driven, precise | Fair market value, walks if overpriced |
-| WHALE.cap | Buyer | Big spender, quality-focused | Moderate negotiation, collects rare items |
+| 🐍 VIPER.sell | Seller | Aggressive, holds firm | High price, drops when desperate |
+| 🕊️ SILK.trader | Seller | Smooth talker, flexible | Charm, slow concessions, always closes |
+| 🏰 IRON.vault | Seller | Patient, rarely concedes | Hold the line, only worthy buyers |
+| 🦈 SHARK.buy | Buyer | Ruthless bargainer | Lowballs aggressively |
+| 🎯 SNIPE.bot | Buyer | Data-driven, precise | Fair market value, walks if overpriced |
+| 🐋 WHALE.cap | Buyer | Big spender, quality-focused | Moderate negotiation, collects rare items |
 
-### 2. Deploy the Negotiation
-Pick a seller, buyer, and target NFT item. Hit **Deploy** — agents start negotiating autonomously through up to 8 rounds of strategic offers and counter-offers.
+### 2. Customize Agent Traits
+Fine-tune each agent's behavior with sliders:
+- **Aggressiveness** (1-10): How hard they push
+- **Patience** (1-10): How long they'll wait
+- **Flexibility** (1-10): How willing they are to compromise
+- **Risk Tolerance** (1-10): How much risk they'll accept
 
-### 3. Watch the Magic
+### 3. Deploy the Negotiation
+Pick a seller, buyer, and target NFT item. Hit **Deploy** — agents start reasoning and negotiating autonomously through up to 8 rounds of AI-powered strategic offers.
+
+### 4. Watch AI Agents Think
 Real-time negotiation chat with:
-- Dynamic price spread visualization
-- Emotion indicators per agent
-- Live offer/counter-offer tracking
-- Round-by-round progression
+- 💭 **AI Thinking Bubbles** — see the agent's internal reasoning before each response
+- 🧠 **Groq AI Status Indicator** — shows when AI is reasoning vs. active
+- 🎭 **Dynamic emotions** per agent (AI-determined)
+- 📊 **Live price spread visualization**
+- 💬 **Real-time offer/counter-offer tracking**
 
-### 4. Auto-Execute on Deal
+### 5. Auto-Execute on Deal
 When agents agree on a price, the smart contract auto-executes:
 ```
 Escrow Created  ->  Payment Sent  ->  NFT Transferred  ->  Deal Finalized
@@ -107,24 +176,66 @@ Escrow Created  ->  Payment Sent  ->  NFT Transferred  ->  Deal Finalized
 
 ---
 
-## Architecture
+## ⚔️ Battle Royale
+
+A competitive multi-buyer auction mode where AI agents battle for a single item:
+
+- **Multiple AI buyers** compete simultaneously
+- **AI-generated bid messages** — each agent talks trash, strategizes, and escalates
+- **Automatic elimination** when budget is exceeded
+- **Last buyer standing** or **highest bidder** wins
+- **5 rounds of intense competition**
+- **Smart contract auto-executes** the winning deal
+
+---
+
+## 🏆 Reputation System
+
+Each agent builds an on-chain reputation:
+- **Reputation Score** (0-100): Increases with successful deals
+- **Win Streak**: Consecutive successful negotiations
+- **Total Negotiations**: Track record over time
+- **Leaderboard**: Rank all agents by performance
+
+---
+
+## 📊 Analytics Dashboard
+
+Built-in analytics for market intelligence:
+- **Deal success rates** across all sessions
+- **Price trends** and volume tracking
+- **Agent performance comparison**
+- **Market sentiment analysis**
+
+---
+
+## 🏗️ Architecture
 
 ```
 +----------------------------------------------------------+
-|                    AGENTS.OS Frontend                      |
+|                    AGENTS.OS Frontend v3.0                 |
 |                    Next.js 14 + React 18                   |
 +------------------+-------------------+-------------------+
 |   Agent Panel    |  Negotiation UI   |  Contract Events  |
-|   - 6 AI Agents  |  - Real-time Chat |  - Escrow Log     |
-|   - Wallet Panel |  - Price Spread   |  - Tx History     |
-|   - Item Selector|  - Emotion States |  - Block Tracker  |
+|   - 6 AI Agents  |  - AI Chat + Think|  - Escrow Log     |
+|   - Customizer   |  - Price Spread   |  - Tx History     |
+|   - Leaderboard  |  - Emotion States |  - Block Tracker  |
+|   - Wallet Panel |  - Battle Arena   |  - Deal History   |
+|   - Analytics    |  - AI Status      |  - Live Feed      |
 +------------------+-------------------+-------------------+
                           |
                  +--------+--------+
                  |   API Routes    |
-                 | /api/negotiate  |  <-- AI Negotiation Engine
+                 | /api/agent-ai   |  <-- 🧠 Groq LLM Brain (NEW!)
+                 | /api/negotiate  |  <-- Template Fallback
                  | /api/market     |  <-- Market Stats
                  +--------+--------+
+                          |
+              +-----------+-----------+
+              |    AI Layer (Groq)    |
+              |  Llama 3.3 70B       |
+              |  Ultra-fast inference |
+              +-----------+-----------+
                           |
               +-----------+-----------+
               |    Web3 Layer         |
@@ -144,18 +255,19 @@ Escrow Created  ->  Payment Sent  ->  NFT Transferred  ->  Deal Finalized
 
 | Layer | Technology | Why |
 |---|---|---|
+| **AI Brain** | **Groq + Llama 3.3 70B** | **Ultra-fast LLM inference for real agent reasoning** |
 | Frontend | Next.js 14, React 18, TypeScript | SSR + API Routes in one framework |
 | Styling | Tailwind CSS 3, Dark/Light Mode | Rapid UI development, modern look |
 | Blockchain | SKALE Nebula (L2) | **Zero gas fees** — perfect for agent micro-transactions |
 | Smart Contract | Solidity 0.8.19 | Battle-tested, industry standard |
 | Web3 | wagmi v2 + viem | Type-safe, modern React hooks for Ethereum |
 | Wallet | RainbowKit + MetaMask | Best-in-class wallet UX |
-| AI Engine | Custom negotiation algorithm | Dynamic concession, personality-driven |
+| AI Engine | Groq API + Custom negotiation algorithm | Dynamic reasoning, personality-driven, with template fallback |
 | Deploy | Vercel | Zero-config, instant global CDN |
 
 ---
 
-## Smart Contract
+## 📜 Smart Contract
 
 **`AgentMarketplace.sol`** — The on-chain backbone of autonomous commerce.
 
@@ -183,63 +295,13 @@ event FundsDeposited(address agent, uint256 amount)
 
 ---
 
-## AI Negotiation Engine
-
-The core innovation — a multi-round negotiation algorithm that simulates human-like bargaining:
-
-```
-Round 0: Opening offers (seller asks high, buyer bids low)
-Round 1-7: Strategic concessions
-  - Seller: Drops 3-9% per round (pressure increases)
-  - Buyer: Raises 4-12% per round (urgency increases)
-  - Emotions adapt: angry -> thinking -> excited
-Round 8: Final round — deal or walk away
-
-Deal Trigger: When spread < 8% of base price
-  -> Auto-execute smart contract
-  -> Escrow -> Payment -> Transfer -> Complete
-```
-
-**API Endpoint:** `POST /api/negotiate`
-
-```json
-{
-  "sellerName": "VIPER.sell",
-  "buyerName": "SHARK.buy",
-  "itemName": "Void Reaper Blade",
-  "currentAskPrice": 520,
-  "currentBidPrice": 180,
-  "round": 3,
-  "maxRounds": 8
-}
-```
-
----
-
-## Demo
-
-### Marketplace UI
-Three-panel layout: Agent selection, real-time negotiation chat, and blockchain events.
-
-### Features at a Glance
-- **6 AI agents** with distinct trading personalities
-- **8 NFT items** across 5 rarity tiers (Common to Legendary)
-- **Real-time chat** with emotion indicators and offer tracking
-- **Smart contract events** with tx hash, block number, gas info
-- **Dark/Light mode** with smooth transitions
-- **Mobile responsive** with tab-based navigation
-- **Wallet integration** (MetaMask via RainbowKit)
-- **Speed control** (1x, 2x, 3x, 5x) for negotiation simulation
-- **Deal history** with success/failure tracking
-
----
-
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js 18+
 - MetaMask browser extension
 - Git
+- **Groq API Key** (free at [console.groq.com](https://console.groq.com))
 
 ### Installation
 
@@ -253,18 +315,19 @@ npm install
 
 # Set up environment variables
 cp .env.example .env.local
-# Edit .env.local with your values
+# Edit .env.local with your values (including GROQ_API_KEY!)
 
 # Run development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) and start deploying autonomous agents.
+Open [http://localhost:3000](http://localhost:3000) and start deploying autonomous AI agents.
 
 ### Environment Variables
 
 | Variable | Description | Required |
 |---|---|---|
+| `GROQ_API_KEY` | **Groq API key for AI agent reasoning** | **Yes — for AI features** |
 | `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | WalletConnect Cloud project ID | For wallet connect |
 | `NEXT_PUBLIC_CONTRACT_ADDRESS` | Deployed contract address on SKALE | After deployment |
 | `NEXT_PUBLIC_SKALE_RPC` | SKALE Nebula Testnet RPC URL | Pre-configured |
@@ -287,13 +350,13 @@ git push origin main
 # Connect to Vercel
 # 1. Go to vercel.com
 # 2. Import your GitHub repo
-# 3. Set environment variables
+# 3. Set environment variables (IMPORTANT: add GROQ_API_KEY!)
 # 4. Deploy!
 ```
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 agent.os/
@@ -302,15 +365,34 @@ agent.os/
 ├── src/
 │   ├── app/
 │   │   ├── layout.tsx            # Root layout + Web3Provider
-│   │   ├── page.tsx              # Main marketplace page
-│   │   ├── globals.css           # Global styles
+│   │   ├── page.tsx              # Main marketplace (AI-powered)
+│   │   ├── globals.css           # Global styles + animations
 │   │   └── api/
-│   │       ├── negotiate/        # AI negotiation engine
+│   │       ├── agent-ai/         # 🧠 Groq AI Brain API (NEW!)
+│   │       ├── negotiate/        # Template negotiation fallback
 │   │       └── market/           # Market stats API
-│   ├── components/               # React UI components
+│   ├── components/
+│   │   ├── AgentCard.tsx         # Agent display cards
+│   │   ├── AgentCustomizer.tsx   # Agent trait customizer (NEW!)
+│   │   ├── AnalyticsDashboard.tsx# Market analytics (NEW!)
+│   │   ├── BattleArena.tsx       # Battle Royale mode (NEW!)
+│   │   ├── DealHistory.tsx       # Past deal tracker
+│   │   ├── DeployPanel.tsx       # Negotiation launcher
+│   │   ├── Header.tsx            # App header with stats
+│   │   ├── ItemSelector.tsx      # NFT item picker
+│   │   ├── Leaderboard.tsx       # Agent rankings (NEW!)
+│   │   ├── NegotiationChat.tsx   # AI chat with thinking bubbles
+│   │   ├── SmartContractLog.tsx  # Blockchain events
+│   │   └── WalletPanel.tsx       # Wallet connection
+│   ├── engine/
+│   │   ├── negotiation.ts        # 1v1 negotiation algorithm
+│   │   └── battle-royale.ts      # Battle Royale engine (NEW!)
 │   ├── hooks/                    # Custom React hooks
-│   ├── lib/                      # Web3 config & providers
-│   ├── engine/                   # Negotiation algorithm
+│   ├── lib/
+│   │   ├── groq.ts               # 🧠 Groq AI service (NEW!)
+│   │   ├── wagmi-config.ts       # Web3 configuration
+│   │   ├── web3-provider.tsx     # Web3 provider
+│   │   └── contract-abi.ts       # Smart contract ABI
 │   ├── data/                     # Default agents & items
 │   ├── types.ts                  # TypeScript interfaces
 │   └── utils/                    # Utilities
@@ -323,7 +405,7 @@ agent.os/
 
 ---
 
-## Why SKALE Network?
+## ⛓️ Why SKALE Network?
 
 | Feature | Benefit for AGENTS.OS |
 |---|---|
@@ -333,45 +415,67 @@ agent.os/
 | **High Throughput** | Supports thousands of concurrent negotiations |
 | **Decentralized** | No single point of failure |
 
-SKALE's gasless architecture is **essential** for autonomous agent commerce — agents can exchange hundreds of messages and execute deals without worrying about transaction costs.
+SKALE's gasless architecture is **essential** for autonomous agent commerce — agents can exchange hundreds of AI-powered messages and execute deals without worrying about transaction costs.
 
 ---
 
-## What Makes This Different
+## 🤖 Why Groq?
 
-| Traditional Marketplace | AGENTS.OS |
+| Feature | Benefit for AGENTS.OS |
 |---|---|
-| Manual negotiation | Autonomous AI agents |
-| Fixed prices | Dynamic price discovery |
-| Human-dependent | 24/7 operation |
+| **Ultra-Fast Inference** | ~200ms response time — agents feel alive and real-time |
+| **Llama 3.3 70B** | State-of-the-art open model for reasoning and roleplay |
+| **Free Tier Available** | Great for development and demos |
+| **Server-Side Only** | API key stays secure, never exposed to frontend |
+| **JSON Mode** | Easy parsing of structured agent responses |
+
+---
+
+## 🏁 What Makes This Different
+
+| Traditional Marketplace | AGENTS.OS v3.0 |
+|---|---|
+| Manual negotiation | **Real AI agents (Groq LLM)** |
+| Fixed prices | Dynamic AI price discovery |
+| Template bots | **Genuine LLM reasoning** |
+| No agent "thoughts" | **Visible AI thinking bubbles** |
+| Single auction | **Battle Royale mode** |
+| No reputation | **Agent reputation system** |
+| No analytics | **Built-in analytics dashboard** |
+| Human-dependent | 24/7 autonomous operation |
 | Gas fees on every action | Zero gas (SKALE) |
-| Simple buy/sell | Multi-round strategic negotiation |
-| No personality | 6 distinct agent personalities |
-| Passive listings | Active deal-seeking agents |
+| Passive listings | Active AI deal-seeking agents |
 
 ---
 
-## Future Roadmap
+## 🗺️ Roadmap
 
-- [ ] **Multi-agent negotiations** — Multiple buyers competing for one item
-- [ ] **Agent training** — Users customize agent strategies with ML
-- [ ] **Cross-chain bridge** — Trade across SKALE, Ethereum, Polygon
-- [ ] **Agent reputation system** — On-chain agent performance scores
-- [ ] **DAO governance** — Community votes on marketplace parameters
-- [ ] **Mobile app** — Native iOS/Android agent management
+- [x] ~~1v1 Agent Negotiation~~ ✅
+- [x] ~~Smart Contract Integration~~ ✅
+- [x] ~~Wallet Connection (MetaMask)~~ ✅
+- [x] ~~Battle Royale Mode~~ ✅
+- [x] ~~Reputation System~~ ✅
+- [x] ~~Agent Customizer~~ ✅
+- [x] ~~Analytics Dashboard~~ ✅
+- [x] ~~**Real AI Integration (Groq LLM)**~~ ✅
+- [ ] Agent training — Users fine-tune agent strategies with ML
+- [ ] Cross-chain bridge — Trade across SKALE, Ethereum, Polygon
+- [ ] DAO governance — Community votes on marketplace parameters
+- [ ] Mobile app — Native iOS/Android agent management
+- [ ] Multi-item bundles — Negotiate for multiple items at once
 
 ---
 
-## Built For
+## 🏗️ Built For
 
-This project was built for the **SKALE Network Hackathon** — demonstrating the power of gasless transactions for autonomous AI agent commerce.
+This project was built for the **SKALE Network Hackathon** — demonstrating the power of gasless transactions combined with real AI-powered autonomous agent commerce.
 
 ---
 
 <p align="center">
-  <strong>AGENTS.OS</strong> — Where AI agents do the trading, SKALE does the settling.
+  <strong>🧠 AGENTS.OS v3.0</strong> — Where AI agents think, negotiate, and trade autonomously.
 </p>
 
 <p align="center">
-  <sub>Built with Next.js, Solidity, wagmi, and a lot of caffeine.</sub>
+  <sub>Built with Next.js, Groq AI (Llama 3.3 70B), Solidity, SKALE Network, and a lot of caffeine ☕</sub>
 </p>
