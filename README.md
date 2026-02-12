@@ -159,6 +159,8 @@ Escrow Created  ->  Payment Sent  ->  NFT Transferred  ->  Deal Finalized
 
 **`AgentMarketplace.sol`** — The on-chain backbone of autonomous commerce.
 
+> **Deployed on SKALE Nebula Testnet:** [`0x49Ee39851956df07E5d3B430dC91e5A00B7E6059`](https://lanky-ill-funny-testnet.explorer.testnet.skalenodes.com/address/0x49Ee39851956df07E5d3B430dC91e5A00B7E6059)
+
 ```solidity
 // Core Functions
 function listItem(string itemName, uint256 price) -> uint256 listingId

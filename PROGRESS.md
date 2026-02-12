@@ -64,30 +64,25 @@
 
 ---
 
-## FASE 3: DEPLOY & LAUNCH [NEXT]
+## FASE 3: DEPLOY & LAUNCH [COMPLETED]
 
 ### Smart Contract Deployment
-- [ ] Deploy AgentMarketplace.sol ke SKALE Nebula Testnet
-  - Tool: Hardhat atau Remix IDE
+- [x] Deploy AgentMarketplace.sol ke SKALE Nebula Testnet via Remix IDE
   - Network: SKALE Nebula Hub Testnet (Chain ID: 37084624)
-  - RPC: https://testnet.skalenodes.com/v1/lanky-ill-funny-testnet
-- [ ] Update NEXT_PUBLIC_CONTRACT_ADDRESS di Vercel env
-- [ ] Verify contract di SKALE Explorer
+  - Contract Address: `0x49Ee39851956df07E5d3B430dC91e5A00B7E6059`
+  - Gas Used: 0 sFUEL (Gasless!)
+  - Status: Confirmed
+- [x] WalletConnect Project ID: Obtained from Reown (cloud.walletconnect.com)
+- [x] Updated all env configs with real contract address
 
 ### Vercel Deployment
-- [ ] Push code ke GitHub repository
-- [ ] Connect repo ke Vercel
-- [ ] Set environment variables:
-  - NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID
-  - NEXT_PUBLIC_CONTRACT_ADDRESS
-  - NEXT_PUBLIC_SKALE_RPC
-- [ ] Deploy & test live URL
-
-### Testing
-- [ ] Test wallet connection (MetaMask → SKALE Nebula Testnet)
-- [ ] Test agent negotiation flow
-- [ ] Test smart contract interaction (list, buy, deposit)
-- [ ] Test mobile responsiveness
+- [x] Push code ke GitHub repository (panzauto46-bot/agent.os)
+- [x] Connect repo ke Vercel
+- [x] Set environment variables:
+  - NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=1208757f...
+  - NEXT_PUBLIC_CONTRACT_ADDRESS=0x49Ee3985...
+  - NEXT_PUBLIC_SKALE_RPC=https://testnet.skalenodes.com/...
+- [x] Deploy & live on Vercel
 
 ---
 

@@ -54,7 +54,7 @@ export const config = getDefaultConfig({
   ssr: true,
 });
 
-// Contract address — update after deployment
+// Contract address — deployed on SKALE Nebula Testnet
 export const MARKETPLACE_CONTRACT_ADDRESS =
   (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`) ||
-  "0x0000000000000000000000000000000000000000";
+  "0x49Ee39851956df07E5d3B430dC91e5A00B7E6059";
