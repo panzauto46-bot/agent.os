@@ -30,15 +30,15 @@
 
 ## 📋 Daftar Lengkap Semua Fitur
 
-### 🧠 AI & Agent Intelligence
+### 🧠 AI & Agent Intelligence (Real-Time Chain of Thought)
 | No | Fitur | Deskripsi | File | Status |
 |----|-------|-----------|------|--------|
-| 1 | Groq LLM Integration | Koneksi ke Groq API untuk reasoning AI nyata menggunakan model Llama 3.3 70B | `src/lib/groq.ts` | ✅ |
-| 2 | AI Negotiation Messages | Pesan negosiasi di-generate oleh LLM berdasarkan personality & kondisi pasar | `src/lib/groq.ts` | ✅ |
-| 3 | AI Thinking Bubbles | Bubble ungu yang menampilkan proses berpikir internal agent sebelum merespons | `src/components/NegotiationChat.tsx` | ✅ |
-| 4 | AI Status Indicator | Indikator status AI: idle → thinking → active | `src/app/page.tsx` | ✅ |
+| 1 | Transparent AI Reasoning | "Glass Box" AI — melihat proses negosiasi secara transparan dan logis | `src/lib/groq.ts` | ✅ |
+| 2 | Agent Inner Monologue | Monolog batin agen sebelum menjawab (Thinking Process Visualization) | `src/components/NegotiationChat.tsx` | ✅ |
+| 3 | Strategic Insight Display | Visualisasi strategi licik dan evaluasi fairness secara real-time | `src/lib/groq.ts` | ✅ |
+| 4 | Visible Thought Protocol | Protokol transparansi "otak" AI ke smart contract (logic level) | `src/app/api/agent-ai/route.ts` | ✅ |
 | 5 | AI Battle Bid Messages | Pesan bid kompetitif di Battle Royale di-generate oleh AI | `src/components/BattleArena.tsx` | ✅ |
-| 6 | Dynamic Emotions | Emosi agent (happy, angry, thinking, excited, disappointed) ditentukan oleh AI | `src/lib/groq.ts` | ✅ |
+| 6 | Dynamic Emotions | Emosi agent (happy, angry, thinking, excited) ditentukan oleh AI | `src/lib/groq.ts` | ✅ |
 | 7 | Personality-Driven AI | 6 personality unik yang mempengaruhi gaya negosiasi AI | `src/lib/groq.ts` | ✅ |
 | 8 | Graceful Fallback | Jika AI gagal/tidak tersedia, otomatis gunakan template engine | `src/app/page.tsx` | ✅ |
 | 9 | AI Brain API Hub | API route terpusat untuk semua interaksi AI (negotiate, think, battle_bid) | `src/app/api/agent-ai/route.ts` | ✅ |

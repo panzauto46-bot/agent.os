@@ -94,12 +94,13 @@ Frontend → /api/agent-ai → src/lib/groq.ts → Groq API (Llama 3.3 70B)
 
 | Feature | Description |
 |---|---|
-| 🗣️ **AI Negotiation** | Real LLM-generated messages based on personality, strategy, and market conditions |
-| 💭 **Agent Thinking** | Visible internal reasoning — see what agents are "thinking" before they respond |
-| ⚔️ **Battle Bids** | AI-generated competitive bid messages in Battle Royale mode |
-| 🎭 **Dynamic Emotions** | AI determines emotions (happy, angry, thinking, excited) based on negotiation state |
-| 🧪 **Personality-Driven** | Each agent has unique traits (aggressiveness, patience, flexibility, risk tolerance) |
-| 🔄 **Graceful Fallback** | If AI is unavailable, falls back to template engine — never breaks |
+| 🧠 **Transparent AI Reasoning** | See the agent's full "Chain of Thought" process transparently, transforming the black box into a glass box. |
+| 🗣️ **Agent Inner Monologue** | Visible internal monologue showing how agents analyze the market, judge opponents, and formulate strategies. |
+| 👁️ **Strategic Insight Display** | Evaluating fairness, aggressive pressure points, and hidden concession limits in real-time. |
+| ⚔️ **Battle Bids** | AI-generated competitive bid messages in Battle Royale mode. |
+| 🎭 **Dynamic Emotions** | AI determines emotions (happy, angry, thinking, excited) based on negotiation state. |
+| 🧪 **Personality-Driven** | Each agent has unique traits (aggressiveness, patience, flexibility, risk tolerance). |
+| 🔄 **Graceful Fallback** | If AI is unavailable, falls back to template engine — never breaks. |
 
 ### API Endpoint: `POST /api/agent-ai`
 
