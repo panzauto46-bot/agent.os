@@ -192,7 +192,7 @@ export default function Home() {
     round: number,
     maxRounds: number,
     context: string
-  ): Promise<{ message: string; emotion: string } | null> => {
+  ): Promise<{ message: string; emotion: string; thought?: string } | null> => {
     try {
       const res = await fetch('/api/agent-ai', {
         method: 'POST',
@@ -220,7 +220,7 @@ export default function Home() {
       });
       if (!res.ok) return null;
       const data = await res.json();
-      return data.success ? { message: data.message, emotion: data.emotion } : null;
+      return data.success ? { message: data.message, emotion: data.emotion, thought: data.thought } : null;
     } catch {
       return null;
     }
@@ -374,36 +374,7 @@ export default function Home() {
         .map(m => `${m.agentName}: ${m.message}`)
         .join('\n');
 
-      // 4. Fetch AI thinking for seller (shows a thinking bubble)
-      const sellerThinking = await fetchAIThinking(
-        seller,
-        currentSession.sellerAskPrice,
-        currentSession.buyerBidPrice,
-        item.basePrice,
-        currentSession.currentRound,
-        currentSession.maxRounds
-      );
-
-      if (sellerThinking) {
-        const thinkingMsg: ChatMessage = {
-          id: uuidv4(),
-          agentId: seller.id,
-          agentName: seller.name,
-          agentType: 'seller',
-          message: `💭 ${sellerThinking}`,
-          timestamp: Date.now(),
-          isThinking: true,
-          emotion: 'thinking',
-        };
-        const withThinking: NegotiationSession = {
-          ...currentSession,
-          messages: [...currentSession.messages, thinkingMsg],
-        };
-        setActiveSession(withThinking);
-        await new Promise(r => setTimeout(r, Math.min(delay * 0.4, 1200)));
-      }
-
-      // 5. Fetch real AI messages for both agents in parallel
+      // 4. Fetch real AI messages for both agents in parallel (Single Call Optimization)
       const [sellerAI, buyerAI] = await Promise.all([
         fetchAIMessage(
           seller, item,
@@ -426,34 +397,74 @@ export default function Home() {
       setIsTyping(false);
       setAiStatus('active');
 
-      // 6. Override template messages with AI-generated ones where available
-      const enhancedMessages = result.messages.map((msg) => {
+      // 5. Enhance messages with AI content and inject thoughts
+      const finalMessages: ChatMessage[] = [];
+
+      for (const msg of result.messages) {
+        // Handle SELLER
         if (msg.agentId === seller.id && sellerAI) {
-          return {
+          // Add thought first if available
+          if (sellerAI.thought) {
+            finalMessages.push({
+              id: uuidv4(),
+              agentId: seller.id,
+              agentName: seller.name,
+              agentType: 'seller',
+              message: `💭 ${sellerAI.thought}`,
+              timestamp: Date.now() - 100,
+              isThinking: true,
+              emotion: 'thinking',
+            });
+          }
+          // Add actual message
+          finalMessages.push({
             ...msg,
             message: sellerAI.message,
             emotion: (sellerAI.emotion as ChatMessage['emotion']) || msg.emotion,
-          };
+          });
+          continue;
         }
+
+        // Handle BUYER
         if (msg.agentId === buyer.id && buyerAI) {
-          return {
+          // Add thought first if available
+          if (buyerAI.thought) {
+            finalMessages.push({
+              id: uuidv4(),
+              agentId: buyer.id,
+              agentName: buyer.name,
+              agentType: 'buyer',
+              message: `💭 ${buyerAI.thought}`,
+              timestamp: Date.now() - 50,
+              isThinking: true,
+              emotion: 'thinking',
+            });
+          }
+          // Add actual message
+          finalMessages.push({
             ...msg,
             message: buyerAI.message,
             emotion: (buyerAI.emotion as ChatMessage['emotion']) || msg.emotion,
-          };
+          });
+          continue;
         }
-        // System messages: add AI badge
+
+        // Handle SYSTEM
         if (msg.agentType === 'system' && !msg.message.includes('SMART CONTRACT') && !msg.message.includes('NEGOTIATION FAILED')) {
-          return {
+          finalMessages.push({
             ...msg,
             message: msg.message + ' | 🧠 Groq AI',
-          };
+          });
+          continue;
         }
-        return msg;
-      });
 
-      // Remove thinking messages and add enhanced messages
+        finalMessages.push(msg);
+      }
+
+      // Remove any existing thinking messages (cleanup) and add new ones
       const cleanedMessages = currentSession.messages.filter(m => !m.isThinking);
+      const enhancedMessages = finalMessages; // Renaming for compatibility with next block
+
 
       const updatedSession: NegotiationSession = {
         ...currentSession,

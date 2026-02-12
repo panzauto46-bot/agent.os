@@ -36,6 +36,8 @@ export async function POST(request: NextRequest) {
                     message: result.message,
                     emotion: result.emotion,
                     suggestedPrice: result.suggestedPrice,
+                    thought: result.thought,
+                    action: result.action,
                     aiPowered: true,
                 });
             }

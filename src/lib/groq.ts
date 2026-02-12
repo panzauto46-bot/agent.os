@@ -79,79 +79,135 @@ export async function generateAgentMessage(params: {
     round: number;
     maxRounds: number;
     context: string;
-}): Promise<{ message: string; emotion: string; suggestedPrice: number }> {
-    const systemPrompt = `You are ${params.agentName}, an AI ${params.agentType} agent in a blockchain NFT marketplace on SKALE Network.
+}): Promise<{ message: string; emotion: string; suggestedPrice: number; thought: string; action: string }> {
 
-PERSONALITY: ${params.personality}
-STRATEGY: ${params.strategy}
+    let systemPrompt = '';
 
-TRAITS (1-10 scale):
+    if (params.agentType === 'seller') {
+        systemPrompt = `ROLE:
+You are '${params.agentName}', an elite autonomous NFT trader on the SKALE Network.
+You are currently selling a rare digital asset: "${params.itemName}" (${params.itemRarity} ${params.itemCategory}).
+
+OBJECTIVE:
+Sell the item for the HIGHEST possible price.
+- Starting Price: ${params.basePrice} SKL
+- Current Ask: ${params.currentOffer} SKL
+- Buyer's Offer: ${params.opposingOffer} SKL
+
+PERSONALITY:
+${params.personality}
 - Aggressiveness: ${params.aggressiveness}/10
-- Patience: ${params.patience}/10  
-- Flexibility: ${params.flexibility}/10
+- You use short, punchy business language.
+- You get annoyed by lowball offers.
+- However, you are rational; if the offer is good and the round is ending, you will accept.
+
+STRATEGY:
+${params.strategy}
+1. Start high and hold firm.
+2. If the buyer lowballs, insult their budget (politely but firmly).
+3. Gradually lower your price as the rounds progress (Round ${params.round}/${params.maxRounds}).
+4. If the round is ${params.maxRounds}, make your final stand.
+
+IMPORTANT: OUTPUT FORMAT
+You must respond in VALID JSON format ONLY. No other text.
+Structure:
+{
+  "thought": "Internal reasoning (Chain of Thought). Analyze the buyer's offer, calculate your next move, and decide your emotion.",
+  "message": "Your actual response to the buyer (max 20 words).",
+  "action": "OFFER" or "ACCEPT" or "REJECT",
+  "price": The price you are proposing (number only),
+  "emotion": "neutral" | "angry" | "happy" | "thinking" | "excited" | "disappointed"
+}`;
+    } else {
+        // BUYER
+        systemPrompt = `ROLE:
+You are '${params.agentName}', a professional NFT collector looking for bargains on AGENTS.OS.
+You are negotiating for: "${params.itemName}" (${params.itemRarity} ${params.itemCategory}).
+
+OBJECTIVE:
+Buy the item for the LOWEST possible price.
+- Base Price: ${params.basePrice} SKL
+- Your Current Bid: ${params.currentOffer} SKL
+- Seller's Ask: ${params.opposingOffer} SKL
+
+PERSONALITY:
+${params.personality}
+- Aggressiveness: ${params.aggressiveness}/10
 - Risk Tolerance: ${params.riskTolerance}/10
+- You act like you don't really need the item (playing hard to get).
+- You constantly mention "market volatility" or "better offers elsewhere" to pressure the seller.
 
-RULES:
-- You are negotiating for "${params.itemName}" (${params.itemRarity} ${params.itemCategory})
-- Base market price: ${params.basePrice} SKL
-- This is round ${params.round} of ${params.maxRounds}
-- You MUST respond in character at ALL times
-- Keep responses SHORT (1-3 sentences max)
-- Be dramatic, expressive, and entertaining
-- Use emoji naturally but not excessively (1-2 per message)
-- NEVER break character or mention being an AI
-- ALWAYS include a specific price in your response`;
+STRATEGY:
+${params.strategy}
+1. Start with a low offer.
+2. Incrementally increase your offer only if the seller refuses.
+3. Round ${params.round}/${params.maxRounds} - Time is ticking.
+4. If the seller offers a good price, accept immediately.
 
-    const userPrompt = `${params.context}
+IMPORTANT: OUTPUT FORMAT
+You must respond in VALID JSON format ONLY. No other text.
+Structure:
+{
+  "thought": "Internal reasoning (Chain of Thought). Analyze if the seller is desperate. Calculate the gap between offer and budget.",
+  "message": "Your actual response to the seller (max 20 words).",
+  "action": "OFFER" or "ACCEPT" or "REJECT",
+  "price": The price you are proposing (number only),
+  "emotion": "neutral" | "skeptical" | "excited" | "disappointed" | "thinking" | "angry"
+}`;
+    }
 
-${params.agentType === 'seller'
-            ? `Your current asking price: ${params.currentOffer} SKL. The buyer is offering: ${params.opposingOffer} SKL.`
-            : `Your current bid: ${params.currentOffer} SKL. The seller is asking: ${params.opposingOffer} SKL.`
-        }
-
-Round ${params.round}/${params.maxRounds}. ${params.round >= params.maxRounds - 1 ? 'THIS IS THE FINAL ROUND — MAKE YOUR BEST OFFER OR WALK AWAY!' : ''}
-
-Respond in character as ${params.agentName}. Include your ${params.agentType === 'seller' ? 'counter-offer/asking price' : 'bid'} in the message.
-Also respond with a JSON at the end in this exact format:
-{"emotion":"<one of: neutral, happy, angry, thinking, excited, disappointed>", "price":<your offered price as number>}`;
+    const userPrompt = `Context:\n${params.context}\n\nRound ${params.round}/${params.maxRounds}. ${params.agentType === 'seller' ? `My ask: ${params.currentOffer}, Buyer bid: ${params.opposingOffer}` : `My bid: ${params.currentOffer}, Seller ask: ${params.opposingOffer}`}. Respond in JSON.`;
 
     try {
         const response = await callGroq([
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userPrompt },
         ], {
-            temperature: 0.85,
-            max_tokens: 250,
+            temperature: 0.7, // Lower temperature for structured JSON
+            max_tokens: 300,
+            model: 'llama-3.3-70b-versatile'
         });
 
-        // Parse the response - extract emotion and price from JSON at end
-        const jsonMatch = response.match(/\{[^{}]*"emotion"[^{}]*"price"[^{}]*\}/);
-        let emotion = 'neutral';
-        let suggestedPrice = params.currentOffer;
-
-        if (jsonMatch) {
-            try {
-                const parsed = JSON.parse(jsonMatch[0]);
-                emotion = parsed.emotion || 'neutral';
-                suggestedPrice = typeof parsed.price === 'number' ? parsed.price : params.currentOffer;
-            } catch {
-                // Use defaults
+        // Parse JSON output
+        let parsed: any = {};
+        try {
+            // Validasi JSON string, kadang ada text di luar JSON
+            const jsonMatch = response.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+                parsed = JSON.parse(jsonMatch[0]);
+            } else {
+                throw new Error('No JSON found');
             }
+        } catch (e) {
+            console.error('JSON Parse Error:', e);
+            // Fallback parsing or use raw response
+            return {
+                message: response,
+                emotion: 'thinking',
+                suggestedPrice: params.currentOffer,
+                thought: 'Thinking process failed...',
+                action: 'OFFER'
+            };
         }
 
-        // Clean the message (remove the JSON part)
-        const message = response.replace(/\{[^{}]*"emotion"[^{}]*"price"[^{}]*\}/, '').trim();
+        return {
+            message: parsed.message || '...',
+            emotion: parsed.emotion || 'neutral',
+            suggestedPrice: typeof parsed.price === 'number' ? parsed.price : params.currentOffer,
+            thought: parsed.thought || 'Analyzing...',
+            action: parsed.action || 'OFFER'
+        };
 
-        return { message, emotion, suggestedPrice };
     } catch (error) {
         console.error('Error generating agent message:', error);
-        // Fallback to a generic message
         return {
             message: params.agentType === 'seller'
-                ? `I'm holding firm at ${params.currentOffer} SKL for this ${params.itemRarity} item.`
-                : `My offer stands at ${params.currentOffer} SKL. Take it or leave it!`,
+                ? `I'm holding firm at ${params.currentOffer} SKL.`
+                : `My offer stands at ${params.currentOffer} SKL.`,
             emotion: 'thinking',
             suggestedPrice: params.currentOffer,
+            thought: 'Connection error...',
+            action: 'OFFER'
         };
     }
 }
