@@ -126,9 +126,11 @@ Frontend → /api/agent-ai → src/lib/groq.ts → Groq API (Llama 3.3 70B)
 ```json
 {
   "success": true,
-  "message": "😤 You think 320 SKL is going to cut it for a LEGENDARY blade? I've dropped to 480 and that's already generous. Take it or someone else will!",
-  "emotion": "angry",
+  "thought": "The buyer is lowballing me hard. 320 SKL is an insult. I'll counter with 465 to show I'm serious but willing to negotiate slightly.",
+  "message": "😤 You think 320 SKL is going to cut it for a LEGENDARY blade? I've dropped to 465 and that's generous. Take it or someone else will!",
+  "action": "OFFER",
   "suggestedPrice": 465,
+  "emotion": "angry",
   "aiPowered": true
 }
 ```
