@@ -167,7 +167,7 @@ export function NegotiationChat({ session, seller, buyer, item, isTyping }: Nego
               <div className="h-2 w-2 rounded-full bg-accent-blue animate-typing-dot" />
               <div className="h-2 w-2 rounded-full bg-accent-blue animate-typing-dot" style={{ animationDelay: '0.2s' }} />
               <div className="h-2 w-2 rounded-full bg-accent-blue animate-typing-dot" style={{ animationDelay: '0.4s' }} />
-              <span className="ml-2 text-xs text-text-muted dark:text-gray-500">Agent is thinking...</span>
+              <span className="ml-2 text-xs text-text-muted dark:text-gray-500">🧠 AI is reasoning...</span>
             </div>
           </div>
         )}
@@ -181,6 +181,21 @@ export function NegotiationChat({ session, seller, buyer, item, isTyping }: Nego
 function ChatBubble({ message, sellerId }: { message: ChatMessage; sellerId: string }) {
   const isSystem = message.agentType === 'system';
   const isSeller = message.agentId === sellerId;
+
+  // AI Thinking bubble
+  if (message.isThinking) {
+    return (
+      <div className={cn('flex animate-slide-in', isSeller ? 'justify-start' : 'justify-end')}>
+        <div className={cn('max-w-[70%]', isSeller ? 'pr-8' : 'pl-8')}>
+          <div className="rounded-2xl px-4 py-2.5 bg-gradient-to-r from-purple-500/5 to-blue-500/5 dark:from-purple-500/10 dark:to-blue-500/10 border border-purple-500/15 dark:border-purple-500/25">
+            <p className="text-[12px] text-purple-600 dark:text-purple-400 italic leading-relaxed">
+              {message.message}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (isSystem) {
     return (

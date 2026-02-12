@@ -30,23 +30,80 @@ export function BattleArena({ seller, buyers, item, onBattleComplete, onContract
 
         const newSession = createBattleSession(seller, buyers, item);
         setSession(newSession);
-        setSystemMessages(['🏟️ BATTLE ROYALE INITIATED — Multiple buyers will compete for ' + item.name + '!']);
+        setSystemMessages(['🏟️ BATTLE ROYALE INITIATED — 🧠 AI agents will compete for ' + item.name + '!']);
         setIsRunning(true);
 
+        const enhanceBidsWithAI = async (bids: typeof newSession.bids, itemName: string, round: number, maxRounds: number) => {
+            const enhanced = await Promise.all(
+                bids.map(async (bid) => {
+                    try {
+                        const buyer = buyers.find(b => b.id === bid.buyerId);
+                        if (!buyer) return bid;
+                        const competitors = buyers
+                            .filter(b => b.id !== bid.buyerId)
+                            .map(b => b.name);
+                        const highestBid = Math.max(...bids.map(b => b.amount));
+                        const res = await fetch('/api/agent-ai', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                action: 'battle_bid',
+                                agentName: buyer.name,
+                                personality: buyer.personality,
+                                aggressiveness: buyer.customization.aggressiveness,
+                                riskTolerance: buyer.customization.riskTolerance,
+                                itemName,
+                                bidAmount: bid.amount,
+                                highestBid,
+                                competitors,
+                                round,
+                                maxRounds,
+                                isEliminated: bid.eliminated,
+                            }),
+                        });
+                        if (res.ok) {
+                            const data = await res.json();
+                            if (data.success) {
+                                return { ...bid, message: data.message };
+                            }
+                        }
+                        return bid;
+                    } catch {
+                        return bid;
+                    }
+                })
+            );
+            return enhanced;
+        };
+
         const runRound = (currentSession: BattleRoyaleSession) => {
-            timerRef.current = setTimeout(() => {
+            timerRef.current = setTimeout(async () => {
                 const result = processBattleRound(currentSession, seller, buyers, item);
+
+                // Enhance bids with AI messages
+                const enhancedBids = await enhanceBidsWithAI(
+                    result.bids,
+                    item.name,
+                    currentSession.currentRound,
+                    currentSession.maxRounds
+                );
+
+                const updatedResult = {
+                    ...result,
+                    bids: enhancedBids,
+                };
 
                 const updatedSession: BattleRoyaleSession = {
                     ...currentSession,
-                    ...result.sessionUpdate,
+                    ...updatedResult.sessionUpdate,
+                    bids: [...currentSession.bids, ...enhancedBids],
                 };
 
                 setSession(updatedSession);
-                setSystemMessages(prev => [...prev, result.systemMessage]);
+                setSystemMessages(prev => [...prev, updatedResult.systemMessage + ' | 🧠 AI']);
 
-                if (result.contractEvents.length > 0) {
-                    onContractEvents(result.contractEvents);
+                if (updatedResult.contractEvents.length > 0) {
+                    onContractEvents(updatedResult.contractEvents);
                 }
 
                 if (updatedSession.status === 'completed' || updatedSession.status === 'cancelled') {
@@ -58,7 +115,7 @@ export function BattleArena({ seller, buyers, item, onBattleComplete, onContract
                 }
 
                 runRound(updatedSession);
-            }, 2000);
+            }, 2500);
         };
 
         timerRef.current = setTimeout(() => {

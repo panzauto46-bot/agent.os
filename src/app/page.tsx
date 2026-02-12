@@ -12,6 +12,7 @@ import {
   Swords,
   Trophy,
   BarChart3,
+  Brain,
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { AgentCard } from "@/components/AgentCard";
@@ -35,11 +36,13 @@ import type {
   Agent,
   NFTItem,
   NegotiationSession,
+  ChatMessage,
   SmartContractExecution,
   MarketStats,
   AgentCustomization,
 } from "@/types";
 import { cn } from "@/utils/cn";
+import { v4 as uuidv4 } from 'uuid';
 
 type TabView = "agents" | "negotiate" | "contracts";
 type NegotiateMode = "1v1" | "battle";
@@ -71,6 +74,7 @@ export default function Home() {
   const [isTyping, setIsTyping] = useState(false);
   const [speed, setSpeed] = useState(2);
   const [blockNumber, setBlockNumber] = useState(18_234_567);
+  const [aiStatus, setAiStatus] = useState<'idle' | 'thinking' | 'active'>('idle');
 
   // UI state
   const [mobileTab, setMobileTab] = useState<TabView>("agents");
@@ -177,6 +181,83 @@ export default function Home() {
     setBlockNumber((b) => b + events.length);
   }, []);
 
+  // ============================
+  // AI-Powered Helpers
+  // ============================
+  const fetchAIMessage = async (
+    agent: Agent,
+    item: NFTItem,
+    currentOffer: number,
+    opposingOffer: number,
+    round: number,
+    maxRounds: number,
+    context: string
+  ): Promise<{ message: string; emotion: string } | null> => {
+    try {
+      const res = await fetch('/api/agent-ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'negotiate',
+          agentName: agent.name,
+          agentType: agent.type,
+          personality: agent.personality,
+          strategy: agent.strategy,
+          aggressiveness: agent.customization.aggressiveness,
+          patience: agent.customization.patience,
+          flexibility: agent.customization.flexibility,
+          riskTolerance: agent.customization.riskTolerance,
+          itemName: item.name,
+          itemCategory: item.category,
+          itemRarity: item.rarity,
+          basePrice: item.basePrice,
+          currentOffer,
+          opposingOffer,
+          round,
+          maxRounds,
+          context,
+        }),
+      });
+      if (!res.ok) return null;
+      const data = await res.json();
+      return data.success ? { message: data.message, emotion: data.emotion } : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const fetchAIThinking = async (
+    agent: Agent,
+    currentPrice: number,
+    opposingPrice: number,
+    basePrice: number,
+    round: number,
+    maxRounds: number
+  ): Promise<string | null> => {
+    try {
+      const res = await fetch('/api/agent-ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'think',
+          agentName: agent.name,
+          agentType: agent.type,
+          personality: agent.personality,
+          currentPrice,
+          opposingPrice,
+          basePrice,
+          round,
+          maxRounds,
+        }),
+      });
+      if (!res.ok) return null;
+      const data = await res.json();
+      return data.success ? data.thought : null;
+    } catch {
+      return null;
+    }
+  };
+
   // Deploy negotiation (1v1)
   const handleDeploy = useCallback(() => {
     if (!selectedSeller || !selectedBuyer || !selectedItem) return;
@@ -190,27 +271,32 @@ export default function Home() {
     setContractEvents([]);
     setIsRunning(true);
     setIsPaused(false);
+    setAiStatus('active');
     setMobileTab("negotiate");
 
     runNegotiationLoop(session, selectedSeller, selectedBuyer, selectedItem);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSeller, selectedBuyer, selectedItem, speed]);
 
+  // ============================
+  // AI-Powered Negotiation Loop
+  // ============================
   const runNegotiationLoop = (
     session: NegotiationSession,
     seller: Agent,
     buyer: Agent,
     item: NFTItem
   ) => {
-    const delay = Math.max(800, 2500 / speed);
+    const delay = Math.max(1200, 3000 / speed);
 
-    const step = (currentSession: NegotiationSession) => {
+    const step = async (currentSession: NegotiationSession) => {
       if (
         currentSession.status === "deal_reached" ||
         currentSession.status === "deal_failed"
       ) {
         setIsRunning(false);
         setIsTyping(false);
+        setAiStatus('idle');
         setPastSessions((prev) => [...prev, currentSession]);
 
         // Update reputation
@@ -257,7 +343,6 @@ export default function Home() {
             )
           );
         } else {
-          // Failed deal: reduce streak
           setSellers((prev) =>
             prev.map((s) =>
               s.id === seller.id
@@ -276,34 +361,116 @@ export default function Home() {
         return;
       }
 
+      // 1. Show "thinking" state
       setIsTyping(true);
+      setAiStatus('thinking');
+
+      // 2. Get price calculations from the template engine
+      const result = processNegotiationRound(currentSession, seller, buyer, item);
+
+      // 3. Build context from recent messages
+      const recentMessages = currentSession.messages.slice(-6)
+        .filter(m => m.agentType !== 'system')
+        .map(m => `${m.agentName}: ${m.message}`)
+        .join('\n');
+
+      // 4. Fetch AI thinking for seller (shows a thinking bubble)
+      const sellerThinking = await fetchAIThinking(
+        seller,
+        currentSession.sellerAskPrice,
+        currentSession.buyerBidPrice,
+        item.basePrice,
+        currentSession.currentRound,
+        currentSession.maxRounds
+      );
+
+      if (sellerThinking) {
+        const thinkingMsg: ChatMessage = {
+          id: uuidv4(),
+          agentId: seller.id,
+          agentName: seller.name,
+          agentType: 'seller',
+          message: `💭 ${sellerThinking}`,
+          timestamp: Date.now(),
+          isThinking: true,
+          emotion: 'thinking',
+        };
+        const withThinking: NegotiationSession = {
+          ...currentSession,
+          messages: [...currentSession.messages, thinkingMsg],
+        };
+        setActiveSession(withThinking);
+        await new Promise(r => setTimeout(r, Math.min(delay * 0.4, 1200)));
+      }
+
+      // 5. Fetch real AI messages for both agents in parallel
+      const [sellerAI, buyerAI] = await Promise.all([
+        fetchAIMessage(
+          seller, item,
+          currentSession.sellerAskPrice,
+          currentSession.buyerBidPrice,
+          currentSession.currentRound,
+          currentSession.maxRounds,
+          `Previous conversation:\n${recentMessages}\n\nYou are the SELLER.`
+        ),
+        fetchAIMessage(
+          buyer, item,
+          currentSession.buyerBidPrice,
+          currentSession.sellerAskPrice,
+          currentSession.currentRound,
+          currentSession.maxRounds,
+          `Previous conversation:\n${recentMessages}\n\nYou are the BUYER.`
+        ),
+      ]);
+
+      setIsTyping(false);
+      setAiStatus('active');
+
+      // 6. Override template messages with AI-generated ones where available
+      const enhancedMessages = result.messages.map((msg) => {
+        if (msg.agentId === seller.id && sellerAI) {
+          return {
+            ...msg,
+            message: sellerAI.message,
+            emotion: (sellerAI.emotion as ChatMessage['emotion']) || msg.emotion,
+          };
+        }
+        if (msg.agentId === buyer.id && buyerAI) {
+          return {
+            ...msg,
+            message: buyerAI.message,
+            emotion: (buyerAI.emotion as ChatMessage['emotion']) || msg.emotion,
+          };
+        }
+        // System messages: add AI badge
+        if (msg.agentType === 'system' && !msg.message.includes('SMART CONTRACT') && !msg.message.includes('NEGOTIATION FAILED')) {
+          return {
+            ...msg,
+            message: msg.message + ' | 🧠 Groq AI',
+          };
+        }
+        return msg;
+      });
+
+      // Remove thinking messages and add enhanced messages
+      const cleanedMessages = currentSession.messages.filter(m => !m.isThinking);
+
+      const updatedSession: NegotiationSession = {
+        ...currentSession,
+        ...result.sessionUpdate,
+        messages: [...cleanedMessages, ...enhancedMessages],
+      };
+
+      setActiveSession(updatedSession);
+
+      if (result.contractEvents.length > 0) {
+        setContractEvents((prev) => [...prev, ...result.contractEvents]);
+        setBlockNumber((b) => b + result.contractEvents.length);
+      }
 
       timerRef.current = setTimeout(() => {
-        setIsTyping(false);
-
-        const result = processNegotiationRound(
-          currentSession,
-          seller,
-          buyer,
-          item
-        );
-        const updatedSession: NegotiationSession = {
-          ...currentSession,
-          ...result.sessionUpdate,
-          messages: [...currentSession.messages, ...result.messages],
-        };
-
-        setActiveSession(updatedSession);
-
-        if (result.contractEvents.length > 0) {
-          setContractEvents((prev) => [...prev, ...result.contractEvents]);
-          setBlockNumber((b) => b + result.contractEvents.length);
-        }
-
-        timerRef.current = setTimeout(() => {
-          step(updatedSession);
-        }, delay);
-      }, delay * 0.7);
+        step(updatedSession);
+      }, delay);
     };
 
     timerRef.current = setTimeout(() => {
@@ -318,6 +485,7 @@ export default function Home() {
     setIsRunning(false);
     setIsPaused(false);
     setIsTyping(false);
+    setAiStatus('idle');
   }, []);
 
   const handleTogglePause = useCallback(() => {
@@ -393,6 +561,36 @@ export default function Home() {
             <div className="flex-1 overflow-y-auto p-5 space-y-6">
               {/* Wallet Panel */}
               <WalletPanel />
+
+              {/* AI Status Indicator */}
+              <div className={cn(
+                "flex items-center gap-2.5 rounded-xl px-4 py-3 border transition-all",
+                aiStatus === 'thinking'
+                  ? "bg-purple-500/10 border-purple-500/30 dark:bg-purple-500/15"
+                  : aiStatus === 'active'
+                    ? "bg-accent-green/10 border-accent-green/30"
+                    : "bg-surface-secondary dark:bg-gray-700 border-border dark:border-gray-600"
+              )}>
+                <Brain className={cn(
+                  "h-4 w-4",
+                  aiStatus === 'thinking' ? "text-purple-500 animate-pulse" :
+                    aiStatus === 'active' ? "text-accent-green" : "text-text-muted dark:text-gray-500"
+                )} />
+                <div>
+                  <p className="text-[11px] font-bold text-text-primary dark:text-white">
+                    🧠 Groq AI Brain
+                  </p>
+                  <p className="text-[10px] text-text-muted dark:text-gray-500">
+                    {aiStatus === 'thinking' ? 'Agents are reasoning...' :
+                      aiStatus === 'active' ? 'Llama 3.3 70B • Active' : 'Llama 3.3 70B • Ready'}
+                  </p>
+                </div>
+                <div className={cn(
+                  "ml-auto h-2 w-2 rounded-full",
+                  aiStatus === 'thinking' ? "bg-purple-500 animate-pulse" :
+                    aiStatus === 'active' ? "bg-accent-green animate-pulse" : "bg-gray-400"
+                )} />
+              </div>
 
               {/* Mode Selector */}
               <div className="flex rounded-xl bg-surface-secondary dark:bg-gray-700 p-1 gap-1">
@@ -551,6 +749,25 @@ export default function Home() {
           {mobileTab === "agents" && (
             <div className="p-4 space-y-4">
               <WalletPanel />
+
+              {/* Mobile AI Status */}
+              <div className={cn(
+                "flex items-center gap-2.5 rounded-xl px-4 py-3 border transition-all",
+                aiStatus === 'thinking'
+                  ? "bg-purple-500/10 border-purple-500/30"
+                  : aiStatus === 'active'
+                    ? "bg-accent-green/10 border-accent-green/30"
+                    : "bg-surface-secondary dark:bg-gray-700 border-border"
+              )}>
+                <Brain className={cn(
+                  "h-4 w-4",
+                  aiStatus === 'thinking' ? "text-purple-500 animate-pulse" :
+                    aiStatus === 'active' ? "text-accent-green" : "text-text-muted"
+                )} />
+                <span className="text-[11px] font-bold text-text-primary dark:text-white">
+                  🧠 Groq AI • {aiStatus === 'thinking' ? 'Thinking...' : aiStatus === 'active' ? 'Active' : 'Ready'}
+                </span>
+              </div>
 
               {/* Mobile Mode Selector */}
               <div className="flex rounded-xl bg-surface-secondary dark:bg-gray-700 p-1 gap-1">
@@ -746,13 +963,16 @@ export default function Home() {
           <div className="flex items-center gap-2.5">
             <div className="h-1.5 w-1.5 rounded-full bg-accent-green animate-pulse" />
             <span className="text-[11px] text-text-muted dark:text-gray-500 font-medium">
-              AGENTS.OS v2.0 — Agent-to-Agent Negotiation Protocol + Battle Royale
+              AGENTS.OS v3.0 — AI-Powered Agent Negotiation • Groq LLM Engine
             </span>
           </div>
           <div className="hidden sm:flex items-center gap-3 text-[11px] text-text-muted dark:text-gray-500 font-medium">
+            <span className="flex items-center gap-1">
+              <Brain className="h-3 w-3 text-purple-500" />
+              Groq AI
+            </span>
             <span>SKALE Nebula</span>
             <span className="text-accent-green">Gasless</span>
-            <span>Autonomous Commerce</span>
           </div>
         </div>
       </footer>
