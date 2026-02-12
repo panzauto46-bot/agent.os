@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Remove-Item -Force \"C:\\\\Users\\\\PANZ AUTO\\\\Documents\\\\AGENT.OS\\\\vite.config.ts\" -ErrorAction SilentlyContinue)",
+      "Bash(Remove-Item -Force \"C:\\\\Users\\\\PANZ AUTO\\\\Documents\\\\AGENT.OS\\\\src\\\\main.tsx\" -ErrorAction SilentlyContinue)",
+      "Bash(Remove-Item -Force \"C:\\\\Users\\\\PANZ AUTO\\\\Documents\\\\AGENT.OS\\\\src\\\\App.tsx\" -ErrorAction SilentlyContinue)",
+      "Bash(Remove-Item -Force \"C:\\\\Users\\\\PANZ AUTO\\\\Documents\\\\AGENT.OS\\\\src\\\\index.css\" -ErrorAction SilentlyContinue)",
+      "Bash(Remove-Item -Force \"C:\\\\Users\\\\PANZ AUTO\\\\Documents\\\\AGENT.OS\\\\index.html\" -ErrorAction SilentlyContinue)",
+      "Bash(Write-Host \"Old Vite files cleaned up\")",
+      "Bash(npx next build:*)",
+      "Bash(git init:*)",
+      "Bash(git branch:*)",
+      "Bash(git remote add:*)",
+      "Bash(git status:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}

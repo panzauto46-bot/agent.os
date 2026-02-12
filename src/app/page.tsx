@@ -9,6 +9,9 @@ import {
   ChevronRight,
   LayoutGrid,
   Activity,
+  Swords,
+  Trophy,
+  BarChart3,
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { AgentCard } from "@/components/AgentCard";
@@ -18,6 +21,10 @@ import { ItemSelector } from "@/components/ItemSelector";
 import { DeployPanel } from "@/components/DeployPanel";
 import { DealHistory } from "@/components/DealHistory";
 import { WalletPanel } from "@/components/WalletPanel";
+import { BattleArena } from "@/components/BattleArena";
+import { Leaderboard } from "@/components/Leaderboard";
+import { AgentCustomizer } from "@/components/AgentCustomizer";
+import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
 import { DEFAULT_SELLERS, DEFAULT_BUYERS, createDefaultItems } from "@/data/defaults";
 import {
   createNegotiationSession,
@@ -30,10 +37,12 @@ import type {
   NegotiationSession,
   SmartContractExecution,
   MarketStats,
+  AgentCustomization,
 } from "@/types";
 import { cn } from "@/utils/cn";
 
 type TabView = "agents" | "negotiate" | "contracts";
+type NegotiateMode = "1v1" | "battle";
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
@@ -66,6 +75,7 @@ export default function Home() {
   // UI state
   const [mobileTab, setMobileTab] = useState<TabView>("agents");
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [negotiateMode, setNegotiateMode] = useState<NegotiateMode>("1v1");
 
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sessionRef = useRef<NegotiationSession | null>(null);
@@ -92,10 +102,10 @@ export default function Home() {
     averagePrice:
       pastSessions.length > 0
         ? pastSessions.reduce((sum, s) => sum + (s.finalPrice || 0), 0) /
-          Math.max(
-            1,
-            pastSessions.filter((s) => s.finalPrice).length
-          )
+        Math.max(
+          1,
+          pastSessions.filter((s) => s.finalPrice).length
+        )
         : 0,
     marketSentiment: "neutral",
   };
@@ -106,7 +116,68 @@ export default function Home() {
   const selectedItem = items.find((i) => i.id === selectedItemId) || null;
   const allAgents = [...sellers, ...buyers];
 
-  // Deploy negotiation
+  // Agent customization handler
+  const handleCustomize = useCallback((agentId: string, customization: AgentCustomization) => {
+    setSellers((prev) =>
+      prev.map((s) => s.id === agentId ? { ...s, customization } : s)
+    );
+    setBuyers((prev) =>
+      prev.map((b) => b.id === agentId ? { ...b, customization } : b)
+    );
+  }, []);
+
+  // Battle Royale handlers
+  const handleBattleComplete = useCallback((winnerId: string, price: number) => {
+    setBuyers((prev) =>
+      prev.map((b) =>
+        b.id === winnerId
+          ? {
+            ...b,
+            balance: b.balance - price,
+            stats: { ...b.stats, totalDeals: b.stats.totalDeals + 1, totalVolume: b.stats.totalVolume + price },
+            reputation: {
+              ...b.reputation,
+              score: Math.min(100, b.reputation.score + 3),
+              streak: b.reputation.streak + 1,
+              totalNegotiations: b.reputation.totalNegotiations + 1,
+            },
+          }
+          : {
+            ...b,
+            reputation: {
+              ...b.reputation,
+              totalNegotiations: b.reputation.totalNegotiations + 1,
+              streak: 0,
+            },
+          }
+      )
+    );
+    if (selectedSellerId) {
+      setSellers((prev) =>
+        prev.map((s) =>
+          s.id === selectedSellerId
+            ? {
+              ...s,
+              stats: { ...s.stats, totalDeals: s.stats.totalDeals + 1, totalVolume: s.stats.totalVolume + price },
+              reputation: {
+                ...s.reputation,
+                score: Math.min(100, s.reputation.score + 2),
+                streak: s.reputation.streak + 1,
+                totalNegotiations: s.reputation.totalNegotiations + 1,
+              },
+            }
+            : s
+        )
+      );
+    }
+  }, [selectedSellerId]);
+
+  const handleBattleContractEvents = useCallback((events: SmartContractExecution[]) => {
+    setContractEvents((prev) => [...prev, ...events]);
+    setBlockNumber((b) => b + events.length);
+  }, []);
+
+  // Deploy negotiation (1v1)
   const handleDeploy = useCallback(() => {
     if (!selectedSeller || !selectedBuyer || !selectedItem) return;
 
@@ -142,22 +213,25 @@ export default function Home() {
         setIsTyping(false);
         setPastSessions((prev) => [...prev, currentSession]);
 
-        if (
-          currentSession.status === "deal_reached" &&
-          currentSession.finalPrice
-        ) {
+        // Update reputation
+        if (currentSession.status === "deal_reached" && currentSession.finalPrice) {
           setSellers((prev) =>
             prev.map((s) =>
               s.id === seller.id
                 ? {
-                    ...s,
-                    stats: {
-                      ...s.stats,
-                      totalDeals: s.stats.totalDeals + 1,
-                      totalVolume:
-                        s.stats.totalVolume + currentSession.finalPrice!,
-                    },
-                  }
+                  ...s,
+                  stats: {
+                    ...s.stats,
+                    totalDeals: s.stats.totalDeals + 1,
+                    totalVolume: s.stats.totalVolume + currentSession.finalPrice!,
+                  },
+                  reputation: {
+                    ...s.reputation,
+                    score: Math.min(100, s.reputation.score + 2),
+                    streak: s.reputation.streak + 1,
+                    totalNegotiations: s.reputation.totalNegotiations + 1,
+                  },
+                }
                 : s
             )
           );
@@ -165,15 +239,36 @@ export default function Home() {
             prev.map((b) =>
               b.id === buyer.id
                 ? {
-                    ...b,
-                    balance: b.balance - currentSession.finalPrice!,
-                    stats: {
-                      ...b.stats,
-                      totalDeals: b.stats.totalDeals + 1,
-                      totalVolume:
-                        b.stats.totalVolume + currentSession.finalPrice!,
-                    },
-                  }
+                  ...b,
+                  balance: b.balance - currentSession.finalPrice!,
+                  stats: {
+                    ...b.stats,
+                    totalDeals: b.stats.totalDeals + 1,
+                    totalVolume: b.stats.totalVolume + currentSession.finalPrice!,
+                  },
+                  reputation: {
+                    ...b.reputation,
+                    score: Math.min(100, b.reputation.score + 2),
+                    streak: b.reputation.streak + 1,
+                    totalNegotiations: b.reputation.totalNegotiations + 1,
+                  },
+                }
+                : b
+            )
+          );
+        } else {
+          // Failed deal: reduce streak
+          setSellers((prev) =>
+            prev.map((s) =>
+              s.id === seller.id
+                ? { ...s, reputation: { ...s.reputation, streak: 0, totalNegotiations: s.reputation.totalNegotiations + 1 } }
+                : s
+            )
+          );
+          setBuyers((prev) =>
+            prev.map((b) =>
+              b.id === buyer.id
+                ? { ...b, reputation: { ...b.reputation, streak: 0, totalNegotiations: b.reputation.totalNegotiations + 1 } }
                 : b
             )
           );
@@ -299,19 +394,47 @@ export default function Home() {
               {/* Wallet Panel */}
               <WalletPanel />
 
-              {/* Deploy Panel */}
-              <DeployPanel
-                selectedSeller={selectedSellerId}
-                selectedBuyer={selectedBuyerId}
-                selectedItem={selectedItemId}
-                isRunning={isRunning}
-                isPaused={isPaused}
-                speed={speed}
-                onDeploy={handleDeploy}
-                onReset={handleReset}
-                onTogglePause={handleTogglePause}
-                onSpeedChange={setSpeed}
-              />
+              {/* Mode Selector */}
+              <div className="flex rounded-xl bg-surface-secondary dark:bg-gray-700 p-1 gap-1">
+                <button
+                  onClick={() => setNegotiateMode("1v1")}
+                  className={cn(
+                    "flex-1 flex items-center justify-center gap-1.5 rounded-lg py-2.5 text-xs font-semibold transition-all",
+                    negotiateMode === "1v1"
+                      ? "bg-accent-blue text-white shadow-sm"
+                      : "text-text-secondary dark:text-gray-400 hover:text-text-primary"
+                  )}
+                >
+                  <Sparkles className="h-3 w-3" /> 1v1 Negotiate
+                </button>
+                <button
+                  onClick={() => setNegotiateMode("battle")}
+                  className={cn(
+                    "flex-1 flex items-center justify-center gap-1.5 rounded-lg py-2.5 text-xs font-semibold transition-all",
+                    negotiateMode === "battle"
+                      ? "bg-gradient-to-r from-amber-500 to-red-500 text-white shadow-sm"
+                      : "text-text-secondary dark:text-gray-400 hover:text-text-primary"
+                  )}
+                >
+                  <Swords className="h-3 w-3" /> Battle Royale
+                </button>
+              </div>
+
+              {/* Deploy Panel (1v1 mode only) */}
+              {negotiateMode === "1v1" && (
+                <DeployPanel
+                  selectedSeller={selectedSellerId}
+                  selectedBuyer={selectedBuyerId}
+                  selectedItem={selectedItemId}
+                  isRunning={isRunning}
+                  isPaused={isPaused}
+                  speed={speed}
+                  onDeploy={handleDeploy}
+                  onReset={handleReset}
+                  onTogglePause={handleTogglePause}
+                  onSpeedChange={setSpeed}
+                />
+              )}
 
               {/* Seller Agents */}
               <div>
@@ -321,22 +444,24 @@ export default function Home() {
                 </h2>
                 <div className="space-y-2.5">
                   {sellers.map((agent) => (
-                    <AgentCard
-                      key={agent.id}
-                      agent={agent}
-                      isSelected={agent.id === selectedSellerId}
-                      isActive={
-                        isRunning && agent.id === activeSession?.sellerId
-                      }
-                      onSelect={() =>
-                        setSelectedSellerId(
-                          agent.id === selectedSellerId ? null : agent.id
-                        )
-                      }
-                      onToggleDeploy={() =>
-                        handleToggleSellerDeploy(agent.id)
-                      }
-                    />
+                    <div key={agent.id}>
+                      <AgentCard
+                        agent={agent}
+                        isSelected={agent.id === selectedSellerId}
+                        isActive={
+                          isRunning && agent.id === activeSession?.sellerId
+                        }
+                        onSelect={() =>
+                          setSelectedSellerId(
+                            agent.id === selectedSellerId ? null : agent.id
+                          )
+                        }
+                        onToggleDeploy={() =>
+                          handleToggleSellerDeploy(agent.id)
+                        }
+                      />
+                      <AgentCustomizer agent={agent} onUpdate={handleCustomize} />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -349,22 +474,24 @@ export default function Home() {
                 </h2>
                 <div className="space-y-2.5">
                   {buyers.map((agent) => (
-                    <AgentCard
-                      key={agent.id}
-                      agent={agent}
-                      isSelected={agent.id === selectedBuyerId}
-                      isActive={
-                        isRunning && agent.id === activeSession?.buyerId
-                      }
-                      onSelect={() =>
-                        setSelectedBuyerId(
-                          agent.id === selectedBuyerId ? null : agent.id
-                        )
-                      }
-                      onToggleDeploy={() =>
-                        handleToggleBuyerDeploy(agent.id)
-                      }
-                    />
+                    <div key={agent.id}>
+                      <AgentCard
+                        agent={agent}
+                        isSelected={agent.id === selectedBuyerId}
+                        isActive={
+                          isRunning && agent.id === activeSession?.buyerId
+                        }
+                        onSelect={() =>
+                          setSelectedBuyerId(
+                            agent.id === selectedBuyerId ? null : agent.id
+                          )
+                        }
+                        onToggleDeploy={() =>
+                          handleToggleBuyerDeploy(agent.id)
+                        }
+                      />
+                      <AgentCustomizer agent={agent} onUpdate={handleCustomize} />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -379,6 +506,12 @@ export default function Home() {
                   )
                 }
               />
+
+              {/* Leaderboard */}
+              <Leaderboard agents={allAgents} />
+
+              {/* Analytics Dashboard */}
+              <AnalyticsDashboard sessions={pastSessions} agents={allAgents} />
 
               {/* Deal History */}
               <div>
@@ -418,57 +551,90 @@ export default function Home() {
           {mobileTab === "agents" && (
             <div className="p-4 space-y-4">
               <WalletPanel />
-              <DeployPanel
-                selectedSeller={selectedSellerId}
-                selectedBuyer={selectedBuyerId}
-                selectedItem={selectedItemId}
-                isRunning={isRunning}
-                isPaused={isPaused}
-                speed={speed}
-                onDeploy={handleDeploy}
-                onReset={handleReset}
-                onTogglePause={handleTogglePause}
-                onSpeedChange={setSpeed}
-              />
+
+              {/* Mobile Mode Selector */}
+              <div className="flex rounded-xl bg-surface-secondary dark:bg-gray-700 p-1 gap-1">
+                <button
+                  onClick={() => setNegotiateMode("1v1")}
+                  className={cn(
+                    "flex-1 flex items-center justify-center gap-1.5 rounded-lg py-2.5 text-xs font-semibold transition-all",
+                    negotiateMode === "1v1"
+                      ? "bg-accent-blue text-white shadow-sm"
+                      : "text-text-secondary dark:text-gray-400"
+                  )}
+                >
+                  <Sparkles className="h-3 w-3" /> 1v1
+                </button>
+                <button
+                  onClick={() => setNegotiateMode("battle")}
+                  className={cn(
+                    "flex-1 flex items-center justify-center gap-1.5 rounded-lg py-2.5 text-xs font-semibold transition-all",
+                    negotiateMode === "battle"
+                      ? "bg-gradient-to-r from-amber-500 to-red-500 text-white shadow-sm"
+                      : "text-text-secondary dark:text-gray-400"
+                  )}
+                >
+                  <Swords className="h-3 w-3" /> Battle
+                </button>
+              </div>
+
+              {negotiateMode === "1v1" && (
+                <DeployPanel
+                  selectedSeller={selectedSellerId}
+                  selectedBuyer={selectedBuyerId}
+                  selectedItem={selectedItemId}
+                  isRunning={isRunning}
+                  isPaused={isPaused}
+                  speed={speed}
+                  onDeploy={handleDeploy}
+                  onReset={handleReset}
+                  onTogglePause={handleTogglePause}
+                  onSpeedChange={setSpeed}
+                />
+              )}
               <h2 className="text-xs font-semibold text-seller uppercase tracking-wider flex items-center gap-2">
                 <div className="h-1.5 w-1.5 rounded-full bg-seller" />
                 Seller Agents
               </h2>
               {sellers.map((agent) => (
-                <AgentCard
-                  key={agent.id}
-                  agent={agent}
-                  isSelected={agent.id === selectedSellerId}
-                  isActive={
-                    isRunning && agent.id === activeSession?.sellerId
-                  }
-                  onSelect={() =>
-                    setSelectedSellerId(
-                      agent.id === selectedSellerId ? null : agent.id
-                    )
-                  }
-                  onToggleDeploy={() => handleToggleSellerDeploy(agent.id)}
-                />
+                <div key={agent.id}>
+                  <AgentCard
+                    agent={agent}
+                    isSelected={agent.id === selectedSellerId}
+                    isActive={
+                      isRunning && agent.id === activeSession?.sellerId
+                    }
+                    onSelect={() =>
+                      setSelectedSellerId(
+                        agent.id === selectedSellerId ? null : agent.id
+                      )
+                    }
+                    onToggleDeploy={() => handleToggleSellerDeploy(agent.id)}
+                  />
+                  <AgentCustomizer agent={agent} onUpdate={handleCustomize} />
+                </div>
               ))}
               <h2 className="text-xs font-semibold text-buyer uppercase tracking-wider flex items-center gap-2">
                 <div className="h-1.5 w-1.5 rounded-full bg-buyer" />
                 Buyer Agents
               </h2>
               {buyers.map((agent) => (
-                <AgentCard
-                  key={agent.id}
-                  agent={agent}
-                  isSelected={agent.id === selectedBuyerId}
-                  isActive={
-                    isRunning && agent.id === activeSession?.buyerId
-                  }
-                  onSelect={() =>
-                    setSelectedBuyerId(
-                      agent.id === selectedBuyerId ? null : agent.id
-                    )
-                  }
-                  onToggleDeploy={() => handleToggleBuyerDeploy(agent.id)}
-                />
+                <div key={agent.id}>
+                  <AgentCard
+                    agent={agent}
+                    isSelected={agent.id === selectedBuyerId}
+                    isActive={
+                      isRunning && agent.id === activeSession?.buyerId
+                    }
+                    onSelect={() =>
+                      setSelectedBuyerId(
+                        agent.id === selectedBuyerId ? null : agent.id
+                      )
+                    }
+                    onToggleDeploy={() => handleToggleBuyerDeploy(agent.id)}
+                  />
+                  <AgentCustomizer agent={agent} onUpdate={handleCustomize} />
+                </div>
               ))}
               <ItemSelector
                 items={items}
@@ -479,17 +645,29 @@ export default function Home() {
                   )
                 }
               />
+              <Leaderboard agents={allAgents} />
+              <AnalyticsDashboard sessions={pastSessions} agents={allAgents} />
             </div>
           )}
           {mobileTab === "negotiate" && (
             <div className="h-full">
-              <NegotiationChat
-                session={activeSession}
-                seller={selectedSeller}
-                buyer={selectedBuyer}
-                item={selectedItem}
-                isTyping={isTyping}
-              />
+              {negotiateMode === "battle" ? (
+                <BattleArena
+                  seller={selectedSeller}
+                  buyers={buyers}
+                  item={selectedItem}
+                  onBattleComplete={handleBattleComplete}
+                  onContractEvents={handleBattleContractEvents}
+                />
+              ) : (
+                <NegotiationChat
+                  session={activeSession}
+                  seller={selectedSeller}
+                  buyer={selectedBuyer}
+                  item={selectedItem}
+                  isTyping={isTyping}
+                />
+              )}
             </div>
           )}
           {mobileTab === "contracts" && (
@@ -509,15 +687,25 @@ export default function Home() {
           )}
         </div>
 
-        {/* ===== CENTER - Negotiation Chat ===== */}
+        {/* ===== CENTER - Negotiation Chat or Battle Arena ===== */}
         <main className="hidden md:flex flex-1 flex-col overflow-hidden">
-          <NegotiationChat
-            session={activeSession}
-            seller={selectedSeller}
-            buyer={selectedBuyer}
-            item={selectedItem}
-            isTyping={isTyping}
-          />
+          {negotiateMode === "battle" ? (
+            <BattleArena
+              seller={selectedSeller}
+              buyers={buyers}
+              item={selectedItem}
+              onBattleComplete={handleBattleComplete}
+              onContractEvents={handleBattleContractEvents}
+            />
+          ) : (
+            <NegotiationChat
+              session={activeSession}
+              seller={selectedSeller}
+              buyer={selectedBuyer}
+              item={selectedItem}
+              isTyping={isTyping}
+            />
+          )}
         </main>
 
         {/* ===== RIGHT SIDEBAR - Smart Contract Log ===== */}
@@ -558,7 +746,7 @@ export default function Home() {
           <div className="flex items-center gap-2.5">
             <div className="h-1.5 w-1.5 rounded-full bg-accent-green animate-pulse" />
             <span className="text-[11px] text-text-muted dark:text-gray-500 font-medium">
-              AGENTS.OS v1.0 — Agent-to-Agent Negotiation Protocol
+              AGENTS.OS v2.0 — Agent-to-Agent Negotiation Protocol + Battle Royale
             </span>
           </div>
           <div className="hidden sm:flex items-center gap-3 text-[11px] text-text-muted dark:text-gray-500 font-medium">

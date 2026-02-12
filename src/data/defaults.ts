@@ -12,6 +12,8 @@ export const DEFAULT_SELLERS: Agent[] = [
     balance: 0,
     deployed: true,
     stats: { totalDeals: 47, totalVolume: 12580, winRate: 78, avgProfit: 23.5 },
+    reputation: { score: 72, tier: 'Gold', streak: 3, bestDeal: 720, fastestDeal: 2, totalNegotiations: 61 },
+    customization: { aggressiveness: 9, patience: 3, flexibility: 2, riskTolerance: 8 },
   },
   {
     id: uuidv4(),
@@ -23,6 +25,8 @@ export const DEFAULT_SELLERS: Agent[] = [
     balance: 0,
     deployed: true,
     stats: { totalDeals: 89, totalVolume: 18420, winRate: 92, avgProfit: 18.2 },
+    reputation: { score: 91, tier: 'Diamond', streak: 12, bestDeal: 650, fastestDeal: 1, totalNegotiations: 97 },
+    customization: { aggressiveness: 5, patience: 8, flexibility: 9, riskTolerance: 6 },
   },
   {
     id: uuidv4(),
@@ -34,6 +38,8 @@ export const DEFAULT_SELLERS: Agent[] = [
     balance: 0,
     deployed: false,
     stats: { totalDeals: 23, totalVolume: 34200, winRate: 65, avgProfit: 45.8 },
+    reputation: { score: 65, tier: 'Silver', streak: 1, bestDeal: 1200, fastestDeal: 5, totalNegotiations: 35 },
+    customization: { aggressiveness: 4, patience: 10, flexibility: 1, riskTolerance: 3 },
   },
 ];
 
@@ -48,6 +54,8 @@ export const DEFAULT_BUYERS: Agent[] = [
     balance: 5000,
     deployed: true,
     stats: { totalDeals: 62, totalVolume: 8930, winRate: 85, avgProfit: -12.4 },
+    reputation: { score: 80, tier: 'Platinum', streak: 5, bestDeal: 95, fastestDeal: 2, totalNegotiations: 73 },
+    customization: { aggressiveness: 10, patience: 2, flexibility: 3, riskTolerance: 9 },
   },
   {
     id: uuidv4(),
@@ -59,6 +67,8 @@ export const DEFAULT_BUYERS: Agent[] = [
     balance: 8000,
     deployed: true,
     stats: { totalDeals: 156, totalVolume: 45600, winRate: 94, avgProfit: -8.1 },
+    reputation: { score: 96, tier: 'Diamond', streak: 18, bestDeal: 102, fastestDeal: 1, totalNegotiations: 166 },
+    customization: { aggressiveness: 6, patience: 7, flexibility: 7, riskTolerance: 4 },
   },
   {
     id: uuidv4(),
@@ -70,6 +80,8 @@ export const DEFAULT_BUYERS: Agent[] = [
     balance: 25000,
     deployed: false,
     stats: { totalDeals: 34, totalVolume: 89200, winRate: 88, avgProfit: -5.3 },
+    reputation: { score: 85, tier: 'Platinum', streak: 7, bestDeal: 2400, fastestDeal: 3, totalNegotiations: 39 },
+    customization: { aggressiveness: 3, patience: 6, flexibility: 8, riskTolerance: 5 },
   },
 ];
 

@@ -1,4 +1,4 @@
-import { BarChart3, Target, Wallet, ToggleLeft, ToggleRight } from 'lucide-react';
+import { BarChart3, Target, Wallet, ToggleLeft, ToggleRight, Star, Flame } from 'lucide-react';
 import type { Agent } from '../types';
 import { cn } from '../utils/cn';
 
@@ -9,6 +9,14 @@ interface AgentCardProps {
   onSelect?: () => void;
   onToggleDeploy?: () => void;
 }
+
+const TIER_COLORS: Record<string, string> = {
+  Bronze: 'text-amber-700 bg-amber-100 dark:bg-amber-500/15',
+  Silver: 'text-gray-500 bg-gray-100 dark:bg-gray-500/15',
+  Gold: 'text-yellow-500 bg-yellow-50 dark:bg-yellow-500/15',
+  Platinum: 'text-cyan-500 bg-cyan-50 dark:bg-cyan-500/15',
+  Diamond: 'text-violet-500 bg-violet-50 dark:bg-violet-500/15',
+};
 
 export function AgentCard({ agent, isActive, isSelected, onSelect, onToggleDeploy }: AgentCardProps) {
   const isSeller = agent.type === 'seller';
@@ -48,12 +56,21 @@ export function AgentCard({ agent, isActive, isSelected, onSelect, onToggleDeplo
           </div>
           <div>
             <h3 className="text-sm font-semibold text-text-primary dark:text-white">{agent.name}</h3>
-            <span className={cn(
-              'text-[11px] font-medium',
-              isSeller ? 'text-seller' : 'text-buyer'
-            )}>
-              {isSeller ? 'Seller Agent' : 'Buyer Agent'}
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className={cn(
+                'text-[11px] font-medium',
+                isSeller ? 'text-seller' : 'text-buyer'
+              )}>
+                {isSeller ? 'Seller Agent' : 'Buyer Agent'}
+              </span>
+              {/* Reputation Tier Badge */}
+              <span className={cn(
+                'text-[9px] font-bold px-1.5 py-0.5 rounded-md uppercase',
+                TIER_COLORS[agent.reputation.tier] || TIER_COLORS.Bronze
+              )}>
+                {agent.reputation.tier}
+              </span>
+            </div>
           </div>
         </div>
         <button
@@ -75,15 +92,24 @@ export function AgentCard({ agent, isActive, isSelected, onSelect, onToggleDeplo
       {/* Strategy */}
       <div className="mb-3 rounded-xl bg-surface-secondary dark:bg-gray-700/50 p-3">
         <p className="text-[11px] text-text-secondary dark:text-gray-400 leading-relaxed">
-          <span className="font-semibold text-accent-purple dark:text-purple-400">Strategy:</span> "{agent.strategy}"
+          <span className="font-semibold text-accent-purple dark:text-purple-400">Strategy:</span> &quot;{agent.strategy}&quot;
         </p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-3 gap-1.5">
         <StatCell icon={<Target className="h-3 w-3" />} label="Deals" value={agent.stats.totalDeals.toString()} />
-        <StatCell icon={<BarChart3 className="h-3 w-3" />} label="Win %" value={`${agent.stats.winRate}%`} />
+        <StatCell icon={<BarChart3 className="h-3 w-3" />} label="Win%" value={`${agent.stats.winRate}%`} />
+        <StatCell icon={<Star className="h-3 w-3" />} label="Score" value={agent.reputation.score.toString()} />
       </div>
+
+      {/* Streak indicator */}
+      {agent.reputation.streak >= 3 && (
+        <div className="mt-2 flex items-center gap-1  text-[10px] text-amber-500 font-bold">
+          <Flame className="h-3 w-3" />
+          <span>{agent.reputation.streak} win streak 🔥</span>
+        </div>
+      )}
 
       {/* Balance for buyers */}
       {!isSeller && (
@@ -101,10 +127,10 @@ export function AgentCard({ agent, isActive, isSelected, onSelect, onToggleDeplo
 
 function StatCell({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="flex items-center gap-2 rounded-xl bg-surface-secondary dark:bg-gray-700/50 px-3 py-2">
+    <div className="flex items-center gap-1.5 rounded-xl bg-surface-secondary dark:bg-gray-700/50 px-2.5 py-2">
       <span className="text-text-muted dark:text-gray-500">{icon}</span>
-      <span className="text-[10px] text-text-muted dark:text-gray-500 font-medium">{label}</span>
-      <span className="ml-auto text-xs font-semibold text-text-primary dark:text-gray-200">{value}</span>
+      <span className="text-[9px] text-text-muted dark:text-gray-500 font-medium">{label}</span>
+      <span className="ml-auto text-[11px] font-semibold text-text-primary dark:text-gray-200">{value}</span>
     </div>
   );
 }
