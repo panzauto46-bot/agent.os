@@ -61,7 +61,7 @@ export function Header({ stats, blockNumber, theme, onToggleTheme }: HeaderProps
           {stats.totalVolume > 0 && (
             <div className="flex items-center gap-1.5 rounded-full bg-surface-tertiary dark:bg-gray-700 px-3 py-1.5">
               <span className="text-[11px] font-semibold text-text-primary dark:text-gray-200">
-                {stats.totalVolume.toLocaleString()} SKL
+                {stats.totalVolume.toLocaleString()} ETH
               </span>
             </div>
           )}

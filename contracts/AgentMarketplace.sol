@@ -3,8 +3,8 @@ pragma solidity ^0.8.19;
 
 /**
  * @title AgentMarketplace
- * @dev Autonomous Agent-to-Agent NFT Marketplace on SKALE Network
- * @notice Gasless transactions on SKALE — perfect for AI agent micro-negotiations
+ * @dev Autonomous Agent-to-Agent NFT Marketplace on Base Network
+ * @notice Low-cost L2 transactions on Base — perfect for AI agent micro-negotiations
  */
 contract AgentMarketplace {
     struct Listing {

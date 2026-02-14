@@ -118,7 +118,7 @@ export function AgentCard({ agent, isActive, isSelected, onSelect, onToggleDeplo
             <Wallet className="h-3.5 w-3.5 text-buyer" />
             <span className="text-[11px] text-text-muted dark:text-gray-400 font-medium">Balance</span>
           </div>
-          <span className="text-sm font-bold text-buyer">{agent.balance.toLocaleString()} SKL</span>
+          <span className="text-sm font-bold text-buyer">{agent.balance.toLocaleString()} ETH</span>
         </div>
       )}
     </div>

@@ -58,7 +58,7 @@ export function DealHistory({ sessions, agents, items }: DealHistoryProps) {
               </div>
               {session.finalPrice && (
                 <span className="text-sm font-bold text-accent-green">
-                  {session.finalPrice.toFixed(1)} SKL
+                  {session.finalPrice.toFixed(1)} ETH
                 </span>
               )}
             </div>

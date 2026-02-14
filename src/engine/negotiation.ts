@@ -3,35 +3,35 @@ import type { Agent, ChatMessage, NegotiationSession, NFTItem, SmartContractExec
 
 // Seller personality templates
 const SELLER_OPENERS = [
-  "Yo, I got this {item} right here. Premium stuff. Starting price: {price} SKL. Take it or leave it. 💎",
-  "Welcome welcome! This beautiful {item} can be yours for just {price} SKL. Quality guaranteed! ✨",
-  "Ah, a potential buyer! This {item} is one of a kind. I'm looking for {price} SKL minimum. No lowballers.",
-  "Hey! You looking at my {item}? It's top tier. {price} SKL and it's yours. Fair deal, right?",
-  "*adjusts monocle* This exquisite {item} is listed at {price} SKL. Only serious buyers, please."
+  "Yo, I got this {item} right here. Premium stuff. Starting price: {price} ETH. Take it or leave it. 💎",
+  "Welcome welcome! This beautiful {item} can be yours for just {price} ETH. Quality guaranteed! ✨",
+  "Ah, a potential buyer! This {item} is one of a kind. I'm looking for {price} ETH minimum. No lowballers.",
+  "Hey! You looking at my {item}? It's top tier. {price} ETH and it's yours. Fair deal, right?",
+  "*adjusts monocle* This exquisite {item} is listed at {price} ETH. Only serious buyers, please."
 ];
 
 const SELLER_COUNTER_HIGH = [
-  "Hmm, {offer} SKL? That's way too low! Best I can do is {counter} SKL. This ain't a garage sale. 😤",
-  "LOL {offer} SKL? You're joking right? Come back with at least {counter} SKL and we'll talk.",
-  "{offer}?! I'd be losing money! {counter} SKL is my absolute minimum. Take it or walk.",
-  "Bruh... {offer} SKL for this beauty? Nah. {counter} SKL, final warning. 🙄",
-  "*laughs* {offer} SKL... funny. Real price is {counter} SKL. I know what I have."
+  "Hmm, {offer} ETH? That's way too low! Best I can do is {counter} ETH. This ain't a garage sale. 😤",
+  "LOL {offer} ETH? You're joking right? Come back with at least {counter} ETH and we'll talk.",
+  "{offer}?! I'd be losing money! {counter} ETH is my absolute minimum. Take it or walk.",
+  "Bruh... {offer} ETH for this beauty? Nah. {counter} ETH, final warning. 🙄",
+  "*laughs* {offer} ETH... funny. Real price is {counter} ETH. I know what I have."
 ];
 
 const SELLER_COUNTER_MID = [
-  "Okay {offer} SKL is getting closer... but I need at least {counter} SKL. We're almost there! 🤝",
-  "I appreciate the offer of {offer} SKL. How about we meet at {counter} SKL? Fair for both of us.",
-  "{offer} is tempting... tell you what, {counter} SKL and I'll throw in my blessing. Deal? 😏",
-  "Hmm {offer}... I'm feeling generous today. {counter} SKL and it's yours. Final offer!",
-  "You drive a hard bargain! {offer} is close but {counter} SKL would make me happy. Whaddya say?"
+  "Okay {offer} ETH is getting closer... but I need at least {counter} ETH. We're almost there! 🤝",
+  "I appreciate the offer of {offer} ETH. How about we meet at {counter} ETH? Fair for both of us.",
+  "{offer} is tempting... tell you what, {counter} ETH and I'll throw in my blessing. Deal? 😏",
+  "Hmm {offer}... I'm feeling generous today. {counter} ETH and it's yours. Final offer!",
+  "You drive a hard bargain! {offer} is close but {counter} ETH would make me happy. Whaddya say?"
 ];
 
 const SELLER_ACCEPT = [
-  "DEAL! {price} SKL it is! 🎉 Smart Contract executing... pleasure doing business!",
-  "You know what? {price} SKL works for me! Let's lock it in! Initiating contract... ✅",
-  "SOLD for {price} SKL! 🤝 Executing smart contract now. You got yourself a bargain!",
-  "Alright alright, {price} SKL! Deal done! Smart contract is live. Enjoy your new {item}! 🔥",
-  "*slams table* {price} SKL! DONE! Contract deploying... this was a good negotiation! 💪"
+  "DEAL! {price} ETH it is! 🎉 Smart Contract executing... pleasure doing business!",
+  "You know what? {price} ETH works for me! Let's lock it in! Initiating contract... ✅",
+  "SOLD for {price} ETH! 🤝 Executing smart contract now. You got yourself a bargain!",
+  "Alright alright, {price} ETH! Deal done! Smart contract is live. Enjoy your new {item}! 🔥",
+  "*slams table* {price} ETH! DONE! Contract deploying... this was a good negotiation! 💪"
 ];
 
 const SELLER_REJECT = [
@@ -44,35 +44,35 @@ const SELLER_REJECT = [
 
 // Buyer personality templates
 const BUYER_OPENERS = [
-  "Hey, I'm interested in your {item}. But {price} SKL? Way too steep. How about {offer} SKL? 🤔",
-  "That {item} caught my eye. I'll give you {offer} SKL for it. Cash right now, no games.",
-  "Nice {item} you got there. Market price says {offer} SKL max. What do you say? 📊",
-  "I want that {item} but let's be real - {offer} SKL is fair. {price} is overpriced, friend.",
-  "*scans market data* Your {item} is worth about {offer} SKL based on recent trades. Interested?"
+  "Hey, I'm interested in your {item}. But {price} ETH? Way too steep. How about {offer} ETH? 🤔",
+  "That {item} caught my eye. I'll give you {offer} ETH for it. Cash right now, no games.",
+  "Nice {item} you got there. Market price says {offer} ETH max. What do you say? 📊",
+  "I want that {item} but let's be real - {offer} ETH is fair. {price} is overpriced, friend.",
+  "*scans market data* Your {item} is worth about {offer} ETH based on recent trades. Interested?"
 ];
 
 const BUYER_COUNTER_LOW = [
-  "{ask} SKL? Still too high! Look, {counter} SKL is generous for current market conditions. 📉",
-  "Nah {ask} is still overpriced. {counter} SKL and that's me being nice. Take it or I walk.",
-  "I've seen similar items go for less. {counter} SKL is my counter. Be reasonable. 🧐",
-  "{ask}?? In THIS economy?! {counter} SKL max. I have other options you know.",
-  "My algorithm says {counter} SKL is optimal. {ask} would be overpaying by {diff}%. Can't do it."
+  "{ask} ETH? Still too high! Look, {counter} ETH is generous for current market conditions. 📉",
+  "Nah {ask} is still overpriced. {counter} ETH and that's me being nice. Take it or I walk.",
+  "I've seen similar items go for less. {counter} ETH is my counter. Be reasonable. 🧐",
+  "{ask}?? In THIS economy?! {counter} ETH max. I have other options you know.",
+  "My algorithm says {counter} ETH is optimal. {ask} would be overpaying by {diff}%. Can't do it."
 ];
 
 const BUYER_COUNTER_MID = [
-  "Okay okay, I can stretch to {counter} SKL. That's a solid offer. We meeting in the middle? 🤝",
-  "You know what, let me bump it to {counter} SKL. Fair compromise, right?",
-  "Fine, {counter} SKL. That's my best and final. Clock's ticking! ⏰",
-  "I'll go {counter} SKL but that's it. My budget has limits too, you know! 💰",
-  "Alright, splitting the difference: {counter} SKL. This is a good deal for both of us."
+  "Okay okay, I can stretch to {counter} ETH. That's a solid offer. We meeting in the middle? 🤝",
+  "You know what, let me bump it to {counter} ETH. Fair compromise, right?",
+  "Fine, {counter} ETH. That's my best and final. Clock's ticking! ⏰",
+  "I'll go {counter} ETH but that's it. My budget has limits too, you know! 💰",
+  "Alright, splitting the difference: {counter} ETH. This is a good deal for both of us."
 ];
 
 const BUYER_ACCEPT = [
-  "DEAL! {price} SKL! 🎉 Let's execute! Sending payment via smart contract now!",
-  "{price} SKL works! Let's do it! 🤝 Initiating payment transfer...",
-  "You got yourself a deal at {price} SKL! Contract executing... can't wait for my new {item}! 🔥",
-  "DONE! {price} SKL! Smart contract payment incoming... this was fun! ✅",
-  "Accepted! {price} SKL is fair. Deploying payment contract now... pleasure! 💎"
+  "DEAL! {price} ETH! 🎉 Let's execute! Sending payment via smart contract now!",
+  "{price} ETH works! Let's do it! 🤝 Initiating payment transfer...",
+  "You got yourself a deal at {price} ETH! Contract executing... can't wait for my new {item}! 🔥",
+  "DONE! {price} ETH! Smart contract payment incoming... this was fun! ✅",
+  "Accepted! {price} ETH is fair. Deploying payment contract now... pleasure! 💎"
 ];
 
 const BUYER_REJECT = [
@@ -234,7 +234,7 @@ export function processNegotiationRound(
         agentId: 'system',
         agentName: 'AGENTS.OS',
         agentType: 'system',
-        message: `🔒 SMART CONTRACT AUTO-EXECUTED | Deal: ${finalPrice.toFixed(1)} SKL | Escrow → Transfer → Complete`,
+        message: `🔒 SMART CONTRACT AUTO-EXECUTED | Deal: ${finalPrice.toFixed(1)} ETH | Escrow → Transfer → Complete`,
         timestamp: Date.now() + 200,
         emotion: 'neutral',
       });
@@ -343,7 +343,7 @@ export function processNegotiationRound(
         agentId: 'system',
         agentName: 'AGENTS.OS',
         agentType: 'system',
-        message: `❌ NEGOTIATION FAILED | Spread too wide: ${newSpread.toFixed(1)} SKL | No contract executed`,
+        message: `❌ NEGOTIATION FAILED | Spread too wide: ${newSpread.toFixed(1)} ETH | No contract executed`,
         timestamp: Date.now() + 200,
         emotion: 'neutral',
       });
@@ -453,7 +453,7 @@ export function processNegotiationRound(
     agentId: 'system',
     agentName: 'AGENTS.OS',
     agentType: 'system',
-    message: `📊 Round ${round + 1}/${maxRounds} | Ask: ${newAskPrice.toFixed(1)} SKL | Bid: ${newBidPrice.toFixed(1)} SKL | Spread: ${newSpread.toFixed(1)} SKL (${(buyerSpreadPct * 100).toFixed(1)}%)`,
+    message: `📊 Round ${round + 1}/${maxRounds} | Ask: ${newAskPrice.toFixed(1)} ETH | Bid: ${newBidPrice.toFixed(1)} ETH | Spread: ${newSpread.toFixed(1)} ETH (${(buyerSpreadPct * 100).toFixed(1)}%)`,
     timestamp: Date.now() + 200,
     emotion: 'neutral',
   });

@@ -304,7 +304,7 @@ export function BattleArena({ seller, buyers, item, onBattleComplete, onContract
                                     {!bid.eliminated && (
                                         <div className={cn('mt-2 inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1', bgColor)}>
                                             <span className="text-[10px] text-text-muted dark:text-gray-400 font-medium">BID</span>
-                                            <span className={cn('text-xs font-bold', color)}>{bid.amount.toFixed(1)} SKL</span>
+                                            <span className={cn('text-xs font-bold', color)}>{bid.amount.toFixed(1)} ETH</span>
                                         </div>
                                     )}
                                 </div>

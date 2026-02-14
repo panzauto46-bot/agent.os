@@ -72,7 +72,7 @@ export function SmartContractLog({ events }: SmartContractLogProps) {
             {event.amount > 0 && (
               <div className="mb-2.5 rounded-lg bg-accent-green/5 dark:bg-accent-green/10 px-2.5 py-1.5 inline-block">
                 <span className="text-sm font-bold text-accent-green">
-                  {event.amount.toFixed(1)} SKL
+                  {event.amount.toFixed(4)} ETH
                 </span>
               </div>
             )}
@@ -90,7 +90,7 @@ export function SmartContractLog({ events }: SmartContractLogProps) {
               <div className="flex items-center gap-1 col-span-2">
                 <Fuel className="h-2.5 w-2.5" />
                 <span>Gas: {event.gasUsed.toLocaleString()}</span>
-                <span className="ml-1 text-accent-green font-medium">(Gasless on SKALE)</span>
+                <span className="ml-1 text-accent-green font-medium">(Low gas on Base L2)</span>
               </div>
             </div>
           </div>

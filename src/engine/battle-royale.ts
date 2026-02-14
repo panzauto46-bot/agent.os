@@ -3,35 +3,35 @@ import type { Agent, NFTItem, BattleRoyaleSession, BattleBid, SmartContractExecu
 
 const BATTLE_MESSAGES = {
     opening: [
-        "🔥 I'm going ALL IN on this {item}! Opening bid: {bid} SKL!",
-        "💰 {item} is MINE! Starting at {bid} SKL — try to beat me!",
-        "📊 Data analysis says {bid} SKL is fair. My opening bid.",
-        "🎯 I want that {item}. Placing {bid} SKL on the table NOW.",
-        "⚡ Let's go! {bid} SKL for the {item}. Who dares to outbid?",
+        "🔥 I'm going ALL IN on this {item}! Opening bid: {bid} ETH!",
+        "💰 {item} is MINE! Starting at {bid} ETH — try to beat me!",
+        "📊 Data analysis says {bid} ETH is fair. My opening bid.",
+        "🎯 I want that {item}. Placing {bid} ETH on the table NOW.",
+        "⚡ Let's go! {bid} ETH for the {item}. Who dares to outbid?",
     ],
     outbid: [
-        "😤 Not so fast! Raising to {bid} SKL! This {item} is MINE!",
-        "🔥 Oh you want war? Fine! {bid} SKL! Beat THAT!",
-        "💪 I'm not backing down! {bid} SKL — your move!",
-        "📈 Algorithm says bid more. Going {bid} SKL! Come at me!",
-        "🚀 {bid} SKL! I've got the budget and the will to WIN!",
+        "😤 Not so fast! Raising to {bid} ETH! This {item} is MINE!",
+        "🔥 Oh you want war? Fine! {bid} ETH! Beat THAT!",
+        "💪 I'm not backing down! {bid} ETH — your move!",
+        "📈 Algorithm says bid more. Going {bid} ETH! Come at me!",
+        "🚀 {bid} ETH! I've got the budget and the will to WIN!",
     ],
     winning: [
-        "😏 That's what I thought! {bid} SKL and nobody can touch me!",
-        "🏆 Leading at {bid} SKL! Say goodbye to this {item}!",
-        "🎉 {bid} SKL stands! Anyone else? ...Didn't think so!",
-        "✨ The {item} knows who its real owner should be. Me. {bid} SKL.",
+        "😏 That's what I thought! {bid} ETH and nobody can touch me!",
+        "🏆 Leading at {bid} ETH! Say goodbye to this {item}!",
+        "🎉 {bid} ETH stands! Anyone else? ...Didn't think so!",
+        "✨ The {item} knows who its real owner should be. Me. {bid} ETH.",
     ],
     eliminated: [
-        "😔 Too rich for my blood at {bid} SKL. I'm out...",
-        "💸 Can't justify {bid} SKL. Walking away from this one.",
-        "🤷 My algorithm says STOP at {bid} SKL. Good luck to the rest!",
-        "😩 Budget exceeded! {bid} SKL is beyond my range. GG!",
+        "😔 Too rich for my blood at {bid} ETH. I'm out...",
+        "💸 Can't justify {bid} ETH. Walking away from this one.",
+        "🤷 My algorithm says STOP at {bid} ETH. Good luck to the rest!",
+        "😩 Budget exceeded! {bid} ETH is beyond my range. GG!",
     ],
     finalBid: [
-        "🔥 ALL OR NOTHING! FINAL BID: {bid} SKL for the {item}!",
-        "💎 THIS IS IT! {bid} SKL — my absolute maximum!",
-        "⚡ LAST CHANCE! {bid} SKL — take it or leave it!",
+        "🔥 ALL OR NOTHING! FINAL BID: {bid} ETH for the {item}!",
+        "💎 THIS IS IT! {bid} ETH — my absolute maximum!",
+        "⚡ LAST CHANCE! {bid} ETH — take it or leave it!",
     ],
 };
 
@@ -139,7 +139,7 @@ export function processBattleRound(
                 currentRound: 1,
                 bids: [...session.bids, ...newBids],
             },
-            systemMessage: `🏟️ BATTLE ROYALE ROUND 1/${maxRounds} | ${activeBuyers.length} buyers competing | Highest bid: ${highest.toFixed(1)} SKL`,
+            systemMessage: `🏟️ BATTLE ROYALE ROUND 1/${maxRounds} | ${activeBuyers.length} buyers competing | Highest bid: ${highest.toFixed(1)} ETH`,
         };
     }
 
@@ -246,7 +246,7 @@ export function processBattleRound(
                     winningPrice: winner.amount,
                     completedAt: Date.now(),
                 },
-                systemMessage: `🏆 BATTLE ROYALE WINNER: ${winner.buyerName} at ${winner.amount.toFixed(1)} SKL! Contract executing...`,
+                systemMessage: `🏆 BATTLE ROYALE WINNER: ${winner.buyerName} at ${winner.amount.toFixed(1)} ETH! Contract executing...`,
             };
         }
     }
@@ -383,7 +383,7 @@ export function processBattleRound(
                     winningPrice: winnerBid.amount,
                     completedAt: Date.now(),
                 },
-                systemMessage: `🏆 LAST BUYER STANDING: ${winnerBid.buyerName} wins at ${winnerBid.amount.toFixed(1)} SKL!`,
+                systemMessage: `🏆 LAST BUYER STANDING: ${winnerBid.buyerName} wins at ${winnerBid.amount.toFixed(1)} ETH!`,
             };
         }
     }
@@ -395,6 +395,6 @@ export function processBattleRound(
             currentRound: round + 1,
             bids: [...session.bids, ...newBids],
         },
-        systemMessage: `🏟️ ROUND ${round + 1}/${maxRounds} | ${remainingAfter} buyers remaining | Highest: ${highest.toFixed(1)} SKL | ${eliminatedThisRound.length} eliminated`,
+        systemMessage: `🏟️ ROUND ${round + 1}/${maxRounds} | ${remainingAfter} buyers remaining | Highest: ${highest.toFixed(1)} ETH | ${eliminatedThisRound.length} eliminated`,
     };
 }

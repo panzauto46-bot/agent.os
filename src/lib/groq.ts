@@ -85,14 +85,14 @@ export async function generateAgentMessage(params: {
 
     if (params.agentType === 'seller') {
         systemPrompt = `ROLE:
-You are '${params.agentName}', an elite autonomous NFT trader on the SKALE Network.
+You are '${params.agentName}', an elite autonomous NFT trader on the Base Network.
 You are currently selling a rare digital asset: "${params.itemName}" (${params.itemRarity} ${params.itemCategory}).
 
 OBJECTIVE:
 Sell the item for the HIGHEST possible price.
-- Starting Price: ${params.basePrice} SKL
-- Current Ask: ${params.currentOffer} SKL
-- Buyer's Offer: ${params.opposingOffer} SKL
+- Starting Price: ${params.basePrice} ETH
+- Current Ask: ${params.currentOffer} ETH
+- Buyer's Offer: ${params.opposingOffer} ETH
 
 PERSONALITY:
 ${params.personality}
@@ -126,9 +126,9 @@ You are negotiating for: "${params.itemName}" (${params.itemRarity} ${params.ite
 
 OBJECTIVE:
 Buy the item for the LOWEST possible price.
-- Base Price: ${params.basePrice} SKL
-- Your Current Bid: ${params.currentOffer} SKL
-- Seller's Ask: ${params.opposingOffer} SKL
+- Base Price: ${params.basePrice} ETH
+- Your Current Bid: ${params.currentOffer} ETH
+- Seller's Ask: ${params.opposingOffer} ETH
 
 PERSONALITY:
 ${params.personality}
@@ -202,8 +202,8 @@ Structure:
         console.error('Error generating agent message:', error);
         return {
             message: params.agentType === 'seller'
-                ? `I'm holding firm at ${params.currentOffer} SKL.`
-                : `My offer stands at ${params.currentOffer} SKL.`,
+                ? `I'm holding firm at ${params.currentOffer} ETH.`
+                : `My offer stands at ${params.currentOffer} ETH.`,
             emotion: 'thinking',
             suggestedPrice: params.currentOffer,
             thought: 'Connection error...',
@@ -235,12 +235,12 @@ export async function generateBattleBidMessage(params: {
                 },
                 {
                     role: 'user',
-                    content: `You were bidding on "${params.itemName}". The price reached ${params.highestBid} SKL which is too high. You're dropping out. Say something dramatic in 1 short sentence.`
+                    content: `You were bidding on "${params.itemName}". The price reached ${params.highestBid} ETH which is too high. You're dropping out. Say something dramatic in 1 short sentence.`
                 }
             ], { temperature: 0.9, max_tokens: 60 });
             return response.trim();
         } catch {
-            return `${params.bidAmount} SKL is my limit... I'm out of this battle.`;
+            return `${params.bidAmount} ETH is my limit... I'm out of this battle.`;
         }
     }
 
@@ -256,7 +256,7 @@ Keep responses to 1-2 sentences MAX. Be dramatic and competitive. Use 1-2 emoji.
             {
                 role: 'user',
                 content: `Round ${params.round}/${params.maxRounds} bidding for "${params.itemName}".
-Your bid: ${params.bidAmount} SKL. Current highest: ${params.highestBid} SKL.
+Your bid: ${params.bidAmount} ETH. Current highest: ${params.highestBid} ETH.
 Competitors: ${params.competitors.join(', ')}.
 ${params.round >= params.maxRounds - 1 ? 'FINAL ROUND!' : ''}
 Say your bid message in character. Short and dramatic!`
@@ -264,7 +264,7 @@ Say your bid message in character. Short and dramatic!`
         ], { temperature: 0.9, max_tokens: 80 });
         return response.trim();
     } catch {
-        return `${params.bidAmount} SKL for the ${params.itemName}! Who dares to outbid me?!`;
+        return `${params.bidAmount} ETH for the ${params.itemName}! Who dares to outbid me?!`;
     }
 }
 

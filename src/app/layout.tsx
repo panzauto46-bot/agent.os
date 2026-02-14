@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "AGENTS.OS — The Operating System for Commerce",
   description:
-    "Autonomous AI Agent Marketplace powered by SKALE Network. Agent-to-Agent negotiation protocol for NFT trading.",
+    "Autonomous AI Agent Marketplace powered by Base Network. Agent-to-Agent negotiation protocol for NFT trading.",
 };
 
 export default function RootLayout({

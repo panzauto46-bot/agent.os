@@ -98,15 +98,15 @@ export function NegotiationChat({ session, seller, buyer, item, isTyping }: Nego
           <div className="flex justify-between text-[11px] font-medium">
             <span className="text-buyer flex items-center gap-1">
               <ArrowDownLeft className="h-3 w-3" />
-              Bid: {session.buyerBidPrice.toFixed(1)} SKL
+              Bid: {session.buyerBidPrice.toFixed(1)} ETH
             </span>
             {session.finalPrice && (
               <span className="text-accent-green font-bold flex items-center gap-1">
-                Deal: {session.finalPrice.toFixed(1)} SKL ✓
+                Deal: {session.finalPrice.toFixed(1)} ETH ✓
               </span>
             )}
             <span className="text-seller flex items-center gap-1">
-              Ask: {session.sellerAskPrice.toFixed(1)} SKL
+              Ask: {session.sellerAskPrice.toFixed(1)} ETH
               <ArrowUpRight className="h-3 w-3" />
             </span>
           </div>
@@ -247,7 +247,7 @@ function ChatBubble({ message, sellerId }: { message: ChatMessage; sellerId: str
                 'text-xs font-bold',
                 isSeller ? 'text-seller' : 'text-buyer'
               )}>
-                {message.offerAmount.toFixed(1)} SKL
+                {message.offerAmount.toFixed(1)} ETH
               </span>
             </div>
           )}

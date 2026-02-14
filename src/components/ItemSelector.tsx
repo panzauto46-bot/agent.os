@@ -58,7 +58,7 @@ export function ItemSelector({ items, selectedId, onSelect }: ItemSelectorProps)
                 </div>
               </div>
               <div className="text-right flex-shrink-0">
-                <p className="text-sm font-bold text-accent-green">{item.currentPrice} SKL</p>
+                <p className="text-sm font-bold text-accent-green">{item.currentPrice} ETH</p>
                 <p className="text-[10px] text-text-muted dark:text-gray-500">base: {item.basePrice}</p>
               </div>
             </button>

@@ -53,7 +53,7 @@ export function AnalyticsDashboard({ sessions, agents }: AnalyticsDashboardProps
                 <StatBox
                     icon={<DollarSign className="h-3.5 w-3.5 text-accent-green" />}
                     label="Total Volume"
-                    value={`${totalVolume.toLocaleString()} SKL`}
+                    value={`${totalVolume.toLocaleString()} ETH`}
                     change={totalVolume > 0 ? '+' : ''}
                     changeColor="text-accent-green"
                 />
@@ -86,7 +86,7 @@ export function AnalyticsDashboard({ sessions, agents }: AnalyticsDashboardProps
                     <div className="flex items-center justify-between mb-3">
                         <span className="text-[10px] font-semibold text-text-muted dark:text-gray-500 uppercase tracking-wider">Price History</span>
                         <span className="text-[10px] font-bold text-accent-green">
-                            Avg: {avgPrice.toFixed(0)} SKL
+                            Avg: {avgPrice.toFixed(0)} ETH
                         </span>
                     </div>
                     <div className="flex items-end gap-1 h-16">

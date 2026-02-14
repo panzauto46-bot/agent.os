@@ -38,19 +38,19 @@ interface NegotiateResponse {
 // Seller response templates based on spread
 const SELLER_TEMPLATES = {
   high_spread: [
-    "Hmm, {offer} SKL? That's insulting for a {rarity} {item}! Best I can do is {counter} SKL.",
-    "{offer} SKL?! You must be joking. {counter} SKL, take it or leave it.",
-    "LOL {offer}? This is premium quality. {counter} SKL minimum.",
+    "Hmm, {offer} ETH? That's insulting for a {rarity} {item}! Best I can do is {counter} ETH.",
+    "{offer} ETH?! You must be joking. {counter} ETH, take it or leave it.",
+    "LOL {offer}? This is premium quality. {counter} ETH minimum.",
   ],
   mid_spread: [
-    "Getting warmer! {offer} is decent but I need {counter} SKL. We can make this work!",
-    "I appreciate {offer} SKL. How about {counter}? Fair for both of us.",
-    "{offer} is tempting... tell you what, {counter} SKL and it's yours.",
+    "Getting warmer! {offer} is decent but I need {counter} ETH. We can make this work!",
+    "I appreciate {offer} ETH. How about {counter}? Fair for both of us.",
+    "{offer} is tempting... tell you what, {counter} ETH and it's yours.",
   ],
   deal_close: [
-    "DEAL! {price} SKL! Smart Contract executing... pleasure doing business!",
-    "SOLD for {price} SKL! Contract deploying... enjoy your new {item}!",
-    "{price} SKL works! Let's lock it in! Initiating contract...",
+    "DEAL! {price} ETH! Smart Contract executing... pleasure doing business!",
+    "SOLD for {price} ETH! Contract deploying... enjoy your new {item}!",
+    "{price} ETH works! Let's lock it in! Initiating contract...",
   ],
   reject: [
     "Sorry, can't go that low for this {item}. Maybe next time!",
@@ -62,19 +62,19 @@ const SELLER_TEMPLATES = {
 // Buyer response templates
 const BUYER_TEMPLATES = {
   high_spread: [
-    "{ask} SKL? Way too high! My data says {counter} SKL is fair for this {rarity}.",
-    "Nah {ask} is overpriced. {counter} SKL and that's generous.",
-    "In THIS market?! {counter} SKL max. I have other options.",
+    "{ask} ETH? Way too high! My data says {counter} ETH is fair for this {rarity}.",
+    "Nah {ask} is overpriced. {counter} ETH and that's generous.",
+    "In THIS market?! {counter} ETH max. I have other options.",
   ],
   mid_spread: [
-    "OK I can go to {counter} SKL. We're almost there!",
-    "Let me bump to {counter} SKL. Fair compromise right?",
-    "Fine, {counter} SKL. That's my best offer. Take it!",
+    "OK I can go to {counter} ETH. We're almost there!",
+    "Let me bump to {counter} ETH. Fair compromise right?",
+    "Fine, {counter} ETH. That's my best offer. Take it!",
   ],
   deal_close: [
-    "DEAL! {price} SKL! Sending payment via smart contract now!",
-    "{price} SKL accepted! Contract executing... can't wait!",
-    "Done! {price} SKL is fair. Payment incoming!",
+    "DEAL! {price} ETH! Sending payment via smart contract now!",
+    "{price} ETH accepted! Contract executing... can't wait!",
+    "Done! {price} ETH is fair. Payment incoming!",
   ],
   reject: [
     "Too expensive. Gonna find a better deal elsewhere.",

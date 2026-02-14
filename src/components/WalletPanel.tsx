@@ -21,7 +21,7 @@ export function WalletPanel() {
       {!isConnected ? (
         <div className="space-y-3">
           <p className="text-xs text-text-muted dark:text-gray-500 leading-relaxed">
-            Connect your MetaMask wallet to fund agents and execute real deals on SKALE Network.
+            Connect your MetaMask wallet to fund agents and execute real deals on Base Network.
           </p>
           <ConnectButton.Custom>
             {({ openConnectModal, mounted }) => {
@@ -43,7 +43,7 @@ export function WalletPanel() {
           </ConnectButton.Custom>
           <div className="flex items-center gap-2 text-[10px] text-text-muted dark:text-gray-500">
             <Shield className="h-3 w-3" />
-            <span>SKALE Network — Zero Gas Fees</span>
+            <span>Base Sepolia — Low Gas Fees (L2)</span>
           </div>
         </div>
       ) : (
@@ -67,14 +67,14 @@ export function WalletPanel() {
             <div className="rounded-xl bg-accent-green/5 dark:bg-accent-green/10 px-3 py-2.5">
               <p className="text-[10px] text-text-muted dark:text-gray-500 mb-0.5">Balance</p>
               <p className="text-sm font-bold text-accent-green">
-                {balance ? parseFloat(balance.formatted).toFixed(4) : "0"} {balance?.symbol || "sFUEL"}
+                {balance ? parseFloat(balance.formatted).toFixed(4) : "0"} {balance?.symbol || "ETH"}
               </p>
             </div>
             <div className="rounded-xl bg-accent-blue/5 dark:bg-accent-blue/10 px-3 py-2.5">
               <p className="text-[10px] text-text-muted dark:text-gray-500 mb-0.5">Network</p>
               <p className="text-xs font-semibold text-accent-blue flex items-center gap-1">
                 <Zap className="h-3 w-3" />
-                {chain?.name || "SKALE"}
+                {chain?.name || "Base Sepolia"}
               </p>
             </div>
           </div>
