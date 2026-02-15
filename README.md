@@ -423,7 +423,6 @@ agent.os/
 | **EVM Compatible** | Standard Solidity, standard tools |
 | **Fast Finality** | Deals confirm in seconds |
 | **High Throughput** | Supports thousands of concurrent negotiations |
-| **Coinbase Backed** | Strong ecosystem and developer support |
 | **Ethereum Security** | Inherits L1 security guarantees |
 
 SKALE Network's zero-gas L2 architecture is **ideal** for autonomous agent commerce — agents can exchange hundreds of AI-powered messages and execute deals with zero transaction costs.
