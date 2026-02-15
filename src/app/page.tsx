@@ -982,8 +982,8 @@ export default function Home() {
               <Brain className="h-3 w-3 text-purple-500" />
               Groq AI
             </span>
-            <span>Base Sepolia</span>
-            <span className="text-accent-green">Low Gas L2</span>
+            <span>SKALE Base Sepolia</span>
+            <span className="text-accent-green">Zero Gas L2</span>
           </div>
         </div>
       </footer>

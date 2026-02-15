@@ -43,7 +43,7 @@ export function WalletPanel() {
           </ConnectButton.Custom>
           <div className="flex items-center gap-2 text-[10px] text-text-muted dark:text-gray-500">
             <Shield className="h-3 w-3" />
-            <span>Base Sepolia — Low Gas Fees (L2)</span>
+            <span>SKALE Base Sepolia — Zero Gas Fees (L2)</span>
           </div>
         </div>
       ) : (
@@ -74,7 +74,7 @@ export function WalletPanel() {
               <p className="text-[10px] text-text-muted dark:text-gray-500 mb-0.5">Network</p>
               <p className="text-xs font-semibold text-accent-blue flex items-center gap-1">
                 <Zap className="h-3 w-3" />
-                {chain?.name || "Base Sepolia"}
+                {chain?.name || "SKALE Base Sepolia"}
               </p>
             </div>
           </div>

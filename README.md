@@ -14,11 +14,11 @@
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Groq_AI-F55036?style=flat-square&logo=ai&logoColor=white" alt="Groq" />
   <img src="https://img.shields.io/badge/Llama_3.3_70B-7C3AED?style=flat-square" alt="Llama" />
-  <img src="https://img.shields.io/badge/Base_Sepolia-0052FF?style=flat-square&logo=coinbase&logoColor=white" alt="Base" />
+  <img src="https://img.shields.io/badge/SKALE_Base_Sepolia-0052FF?style=flat-square&logo=coinbase&logoColor=white" alt="Base" />
   <img src="https://img.shields.io/badge/Solidity-363636?style=flat-square&logo=solidity" alt="Solidity" />
   <img src="https://img.shields.io/badge/wagmi_v2-35324a?style=flat-square" alt="wagmi" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind" />
-  <img src="https://img.shields.io/badge/Low_Gas_L2-10B981?style=flat-square" alt="Low Gas" />
+  <img src="https://img.shields.io/badge/Zero_Gas_L2-10B981?style=flat-square" alt="Zero Gas" />
 </p>
 
 <p align="center">
@@ -47,7 +47,7 @@ Today's NFT and digital asset marketplaces are **fundamentally broken**:
 | Bots snipe without negotiating | Zero-sum, no value creation |
 | No real AI — just random templates | Agents "feel" scripted and dumb |
 
-**What if your AI agent could actually THINK, strategize, and negotiate the best deal for you — 24/7, autonomously, with low-cost L2 transactions?**
+**What if your AI agent could actually THINK, strategize, and negotiate the best deal for you — 24/7, autonomously, with zero-gas L2 transactions?**
 
 ---
 
@@ -56,7 +56,7 @@ Today's NFT and digital asset marketplaces are **fundamentally broken**:
 **AGENTS.OS v3.0** is an autonomous commerce protocol where **real AI agents powered by Groq's Llama 3.3 70B** negotiate, reason, battle, and execute trades on-chain — all without human intervention.
 
 ```
- User                    AGENTS.OS                      Base L2
+ User                    AGENTS.OS                  SKALE Base L2
   |                         |                             |
   |-- Deploy Agent -------->|                             |
   |                         |-- 🧠 Agent A "thinking..."  |
@@ -68,7 +68,7 @@ Today's NFT and digital asset marketplaces are **fundamentally broken**:
   |                         |                  Escrow ---->|
   |                         |                  Payment --->|
   |                         |                  Transfer -->|
-  |<-- Deal Complete! ------|<-- Confirmed (low gas) -----|
+  |<-- Deal Complete! ------|<-- Confirmed (zero gas) -----|
 ```
 
 ### Key Innovation
@@ -173,9 +173,9 @@ Real-time negotiation chat with:
 When agents agree on a price, the smart contract auto-executes:
 ```
 Escrow Created  ->  Payment Sent  ->  NFT Transferred  ->  Deal Finalized
-   (low gas)          (low gas)          (low gas)           (low gas)
+   (zero gas)          (zero gas)          (zero gas)           (zero gas)
 ```
-**Low-cost L2 transactions.** Powered by Base Network.
+**Zero-gas L2 transactions.** Powered by SKALE Network.
 
 ---
 
@@ -247,10 +247,11 @@ Built-in analytics for market intelligence:
               +-----------+-----------+
                           |
               +-----------+-----------+
-              |   Base Network        |
-              |   Sepolia Testnet     |
+              +-----------+-----------+
+              |   SKALE Network       |
+              |   SKALE Base Sepolia  |
               |   AgentMarketplace.sol|
-              |   (Low-cost L2)       |
+              |   (Zero-gas L2)       |
               +-----------------------+
 ```
 
@@ -261,7 +262,7 @@ Built-in analytics for market intelligence:
 | **AI Brain** | **Groq + Llama 3.3 70B** | **Ultra-fast LLM inference for real agent reasoning** |
 | Frontend | Next.js 14, React 18, TypeScript | SSR + API Routes in one framework |
 | Styling | Tailwind CSS 3, Dark/Light Mode | Rapid UI development, modern look |
-| Blockchain | Base Sepolia (L2) | **Low-cost gas fees** — perfect for agent micro-transactions |
+| Blockchain | SKALE Base Sepolia (L2) | **Zero gas fees** — perfect for agent micro-transactions |
 | Smart Contract | Solidity 0.8.19 | Battle-tested, industry standard |
 | Web3 | wagmi v2 + viem | Type-safe, modern React hooks for Ethereum |
 | Wallet | RainbowKit + MetaMask | Best-in-class wallet UX |
@@ -274,7 +275,7 @@ Built-in analytics for market intelligence:
 
 **`AgentMarketplace.sol`** — The on-chain backbone of autonomous commerce.
 
-> **Deployed on Base Sepolia Testnet:** [`0x49Ee39851956df07E5d3B430dC91e5A00B7E6059`](https://sepolia.basescan.org/address/0x49Ee39851956df07E5d3B430dC91e5A00B7E6059)
+> **Deployed on SKALE Base Sepolia:** [`0x49Ee39851956df07E5d3B430dC91e5A00B7E6059`](https://sepolia.basescan.org/address/0x49Ee39851956df07E5d3B430dC91e5A00B7E6059)
 
 ```solidity
 // Core Functions
@@ -332,15 +333,15 @@ Open [http://localhost:3000](http://localhost:3000) and start deploying autonomo
 |---|---|---|
 | `GROQ_API_KEY` | **Groq API key for AI agent reasoning** | **Yes — for AI features** |
 | `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | WalletConnect Cloud project ID | For wallet connect |
-| `NEXT_PUBLIC_CONTRACT_ADDRESS` | Deployed contract address on Base Sepolia | After deployment |
-| `NEXT_PUBLIC_BASE_SEPOLIA_RPC` | Base Sepolia Testnet RPC URL | Pre-configured |
+| `NEXT_PUBLIC_CONTRACT_ADDRESS` | Deployed contract address on SKALE Base Sepolia | After deployment |
+| `NEXT_PUBLIC_BASE_SEPOLIA_RPC` | SKALE Base Sepolia Testnet RPC URL | Pre-configured |
 
 ### Deploy Smart Contract
 
 1. Open [Remix IDE](https://remix.ethereum.org)
 2. Create `AgentMarketplace.sol` from `contracts/` folder
 3. Compile with Solidity 0.8.19
-4. Connect MetaMask to Base Sepolia Testnet
+4. Connect MetaMask to SKALE Base Sepolia
 5. Deploy and copy contract address
 6. Update `NEXT_PUBLIC_CONTRACT_ADDRESS` in `.env.local`
 
@@ -408,18 +409,18 @@ agent.os/
 
 ---
 
-## ⛓️ Why Base Network?
+## ⛓️ Why SKALE Network?
 
 | Feature | Benefit for AGENTS.OS |
 |---|---|
-| **Low Gas Fees** | Agents can negotiate in micro-rounds with minimal cost |
+| **Zero Gas Fees** | Agents can negotiate in micro-rounds with minimal cost |
 | **EVM Compatible** | Standard Solidity, standard tools |
 | **Fast Finality** | Deals confirm in seconds |
 | **High Throughput** | Supports thousands of concurrent negotiations |
 | **Coinbase Backed** | Strong ecosystem and developer support |
 | **Ethereum Security** | Inherits L1 security guarantees |
 
-Base Network's low-cost L2 architecture is **ideal** for autonomous agent commerce — agents can exchange hundreds of AI-powered messages and execute deals with minimal transaction costs.
+SKALE Network's zero-gas L2 architecture is **ideal** for autonomous agent commerce — agents can exchange hundreds of AI-powered messages and execute deals with zero transaction costs.
 
 ---
 
@@ -447,7 +448,7 @@ Base Network's low-cost L2 architecture is **ideal** for autonomous agent commer
 | No reputation | **Agent reputation system** |
 | No analytics | **Built-in analytics dashboard** |
 | Human-dependent | 24/7 autonomous operation |
-| High gas fees | Low gas (Base L2) |
+| High gas fees | Zero gas (SKALE L2) |
 | Passive listings | Active AI deal-seeking agents |
 
 ---
@@ -462,7 +463,7 @@ Base Network's low-cost L2 architecture is **ideal** for autonomous agent commer
 - [x] ~~Agent Customizer~~ ✅
 - [x] ~~Analytics Dashboard~~ ✅
 - [x] ~~**Real AI Integration (Groq LLM)**~~ ✅
-- [x] ~~**Migration to Base Sepolia Testnet**~~ ✅
+- [x] ~~**Migration to SKALE Base Sepolia Testnet**~~ ✅
 - [ ] Agent training — Users fine-tune agent strategies with ML
 - [ ] Cross-chain bridge — Trade across Base, Ethereum, Polygon
 - [ ] DAO governance — Community votes on marketplace parameters
@@ -473,7 +474,7 @@ Base Network's low-cost L2 architecture is **ideal** for autonomous agent commer
 
 ## 🏗️ Built For
 
-This project demonstrates the power of **Base Network's low-cost L2 transactions** combined with **real AI-powered autonomous agent commerce** using Groq's Llama 3.3 70B.
+This project demonstrates the power of **SKALE Network's zero-gas L2 transactions** combined with **real AI-powered autonomous agent commerce** using Groq's Llama 3.3 70B.
 
 ---
 
@@ -482,5 +483,5 @@ This project demonstrates the power of **Base Network's low-cost L2 transactions
 </p>
 
 <p align="center">
-  <sub>Built with Next.js, Groq AI (Llama 3.3 70B), Solidity, Base Network, and a lot of caffeine ☕</sub>
+  <sub>Built with Next.js, Groq AI (Llama 3.3 70B), Solidity, SKALE Network, and a lot of caffeine ☕</sub>
 </p>
