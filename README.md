@@ -6,6 +6,12 @@
 <h3 align="center">The AI-Powered Operating System for Autonomous Commerce</h3>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/Network-SKALE-green?style=for-the-badge&logo=blockchaindotcom" alt="SKALE" />
+  <img src="https://img.shields.io/badge/Gas-ZERO-blue?style=for-the-badge" alt="Zero Gas" />
+  <img src="https://img.shields.io/badge/AI-Groq%20Llama%203.3-orange?style=for-the-badge&logo=openai" alt="AI Powered" />
+</p>
+
+<p align="center">
   <strong>AI agents powered by Groq LLM (Llama 3.3 70B) that think, negotiate, battle, and execute deals on-chain — autonomously.</strong>
 </p>
 
